@@ -19,8 +19,6 @@
 
 ---
 
-You’re right—the formulas are showing as raw LaTeX. The section uses `\(...\)` and `\[...\]`, which GitHub Markdown doesn’t render. Use `$...$` for inline math and `$$...$$` on separate lines for display math.
-
 ## 1. Fundamentals and Unit Conversion
 
 ### Core formulas
@@ -47,25 +45,17 @@ $$
 - **m/s to km/h:** multiply by $\frac{18}{5}$.
 
 $$
-\text{Speed in m/s}
-=
-\text{Speed in km/h} \times \frac{5}{18}
+\text{Speed in m/s} = \text{Speed in km/h} \times \frac{5}{18}
 $$
 
 $$
-\text{Speed in km/h}
-=
-\text{Speed in m/s} \times \frac{18}{5}
+\text{Speed in km/h} = \text{Speed in m/s} \times \frac{18}{5}
 $$
 
 Why does this work?
 
 $$
-1\text{ km/h}
-=
-\frac{1000\text{ m}}{3600\text{ s}}
-=
-\frac{5}{18}\text{ m/s}
+1\text{ km/h} = \frac{1000\text{ m}}{3600\text{ s}} = \frac{5}{18}\text{ m/s}
 $$
 
 ### Warm-up examples
@@ -73,9 +63,7 @@ $$
 **Example 1: Convert $180\text{ km/h}$ to m/s.**
 
 $$
-180 \times \frac{5}{18}
-=
-50\text{ m/s}
+180 \times \frac{5}{18} = 50\text{ m/s}
 $$
 
 **Example 2: A car covers $7.5\text{ m}$ in $1\text{ s}$. Find its speed in km/h.**
@@ -85,12 +73,10 @@ S = \frac{7.5}{1} = 7.5\text{ m/s}
 $$
 
 $$
-7.5 \times \frac{18}{5}
-=
-1.5 \times 18
-=
-27\text{ km/h}
-$$ 
+7.5 \times \frac{18}{5} = 1.5 \times 18 = 27\text{ km/h}
+$$
+
+---
 
 ## 2. Trains Crossing Stationary Objects
 
@@ -98,13 +84,13 @@ $$
 
 A point object has negligible length. The train must travel only its own length for its rear to completely pass the object.
 
-Let \(L\) be the train's length.
+Let $L$ be the train's length.
 
-\[
-\boxed{D=L}
+$$
+\boxed{D = L}
 \qquad
-\boxed{T=\frac{L}{S_{\text{train}}}}
-\]
+\boxed{T = \frac{L}{S_{\text{train}}}}
+$$
 
 **Key idea:** Do not add another length for a person, pole, or tree.
 
@@ -112,59 +98,57 @@ Let \(L\) be the train's length.
 
 The entire train must clear the object, so the train travels the sum of both lengths.
 
-\[
-\boxed{D=L_{\text{train}}+L_{\text{object}}}
-\]
+$$
+\boxed{D = L_{\text{train}} + L_{\text{object}}}
+$$
 
-\[
-\boxed{T=\frac{L_{\text{train}}+L_{\text{object}}}{S_{\text{train}}}}
-\]
+$$
+\boxed{T = \frac{L_{\text{train}} + L_{\text{object}}}{S_{\text{train}}}}
+$$
 
 Ensure that the speed is in m/s when distance is in metres and time is required in seconds.
 
 ### Example 1: Train crossing a platform
 
-A platform is \(248\text{ m}\) long. A train of length \(127\text{ m}\) travels at \(150\text{ km/h}\). How many seconds does it take to clear the platform?
+A platform is $248\text{ m}$ long. A train of length $127\text{ m}$ travels at $150\text{ km/h}$. How many seconds does it take to clear the platform?
 
 **Step 1: Total distance**
 
-\[
-D=248+127=375\text{ m}
-\]
+$$
+D = 248 + 127 = 375\text{ m}
+$$
 
 **Step 2: Convert speed**
 
-\[
-S=150\times\frac{5}{18}=\frac{125}{3}\text{ m/s}
-\]
+$$
+S = 150 \times \frac{5}{18} = \frac{125}{3}\text{ m/s}
+$$
 
 **Step 3: Calculate time**
 
-\[
-T=\frac{375}{125/3}
-=375\times\frac{3}{125}
-=\boxed{9\text{ seconds}}
-\]
+$$
+T = \frac{375}{125/3} = 375 \times \frac{3}{125} = \boxed{9\text{ seconds}}
+$$
 
 ### Example 2: Train and platform have equal lengths
 
-A train travels at \(72\text{ km/h}\) and crosses a platform of equal length in \(40\text{ s}\). Find the train's length.
+A train travels at $72\text{ km/h}$ and crosses a platform of equal length in $40\text{ s}$. Find the train's length.
 
-Let the train and platform each have length \(L\).
+Let the train and platform each have length $L$.
 
-\[
-S=72\times\frac{5}{18}=20\text{ m/s}
-\]
+$$
+S = 72 \times \frac{5}{18} = 20\text{ m/s}
+$$
 
-\[
-D=S\times T=20\times40=800\text{ m}
-\]
+$$
+D = S \times T = 20 \times 40 = 800\text{ m}
+$$
 
-Since \(D=2L\),
+Since $D = 2L$,
 
-\[
-2L=800\implies\boxed{L=400\text{ m}}
-\]
+$$
+2L = 800 \implies \boxed{L = 400\text{ m}}
+$$
 
 ---
 
@@ -172,14 +156,14 @@ Since \(D=2L\),
 
 When two bodies move at the same time, use their **relative speed** to calculate how quickly the gap between them changes.
 
-\[
-\boxed{T=\frac{\text{Gap}}{S_{\text{relative}}}}
-\]
+$$
+\boxed{T = \frac{\text{Gap}}{S_{\text{relative}}}}
+$$
 
 | Direction of movement | Relative speed | Reason |
 |---|---:|---|
-| Same direction | \(\lvert S_1-S_2\rvert\) | The faster body closes the gap at the difference between their speeds. |
-| Opposite directions, moving towards each other | \(S_1+S_2\) | Both bodies close the gap simultaneously. |
+| Same direction | $\lvert S_1 - S_2\rvert$ | The faster body closes the gap at the difference between their speeds. |
+| Opposite directions, moving towards each other | $S_1 + S_2$ | Both bodies close the gap simultaneously. |
 
 **Unit reminder:** Convert speeds to the same unit before adding or subtracting them.
 
@@ -191,93 +175,91 @@ Examples include a policeman chasing a thief, one vehicle catching another, or a
 
 For two bodies moving in the same direction, where the chaser is faster:
 
-\[
-\boxed{T_{\text{catch}}=\frac{\text{Initial gap}}{S_{\text{chaser}}-S_{\text{runner}}}}
-\]
+$$
+\boxed{T_{\text{catch}} = \frac{\text{Initial gap}}{S_{\text{chaser}} - S_{\text{runner}}}}
+$$
 
 Distance travelled by the chaser:
 
-\[
-\boxed{D_{\text{chaser}}=S_{\text{chaser}}\times T_{\text{catch}}}
-\]
+$$
+\boxed{D_{\text{chaser}} = S_{\text{chaser}} \times T_{\text{catch}}}
+$$
 
 ### Example 1: Policeman and thief
 
-A policeman spots a thief \(100\text{ m}\) ahead. The policeman runs at \(4\text{ m/s}\), while the thief runs at \(2\text{ m/s}\). Find the distance the policeman runs before catching the thief.
+A policeman spots a thief $100\text{ m}$ ahead. The policeman runs at $4\text{ m/s}$, while the thief runs at $2\text{ m/s}$. Find the distance the policeman runs before catching the thief.
 
 **Relative speed**
 
-\[
-S_r=4-2=2\text{ m/s}
-\]
+$$
+S_r = 4 - 2 = 2\text{ m/s}
+$$
 
 **Time to catch**
 
-\[
-T=\frac{100}{2}=50\text{ s}
-\]
+$$
+T = \frac{100}{2} = 50\text{ s}
+$$
 
 **Distance run by the policeman**
 
-\[
-D=4\times50=\boxed{200\text{ m}}
-\]
+$$
+D = 4 \times 50 = \boxed{200\text{ m}}
+$$
 
 ### Example 2: Carriage overtaking a man
 
-A man walks at \(3\text{ km/h}\). A carriage overtakes him and remains visible up to a distance of \(100\text{ m}\) for \(2\) minutes. Find the carriage's speed.
+A man walks at $3\text{ km/h}$. A carriage overtakes him and remains visible up to a distance of $100\text{ m}$ for $2\text{ minutes}$. Find the carriage's speed.
 
 Convert time:
 
-\[
-2\text{ minutes}=120\text{ s}
-\]
+$$
+2\text{ minutes} = 120\text{ s}
+$$
 
 The relative speed is the speed at which the gap grows:
 
-\[
-S_r=\frac{100}{120}=\frac{5}{6}\text{ m/s}
-\]
+$$
+S_r = \frac{100}{120} = \frac{5}{6}\text{ m/s}
+$$
 
 Convert to km/h:
 
-\[
-S_r=\frac{5}{6}\times\frac{18}{5}=3\text{ km/h}
-\]
+$$
+S_r = \frac{5}{6} \times \frac{18}{5} = 3\text{ km/h}
+$$
 
 Since they move in the same direction:
 
-\[
-S_{\text{carriage}}-S_{\text{man}}=S_r
-\]
+$$
+S_{\text{carriage}} - S_{\text{man}} = S_r
+$$
 
-\[
-S_{\text{carriage}}-3=3
-\implies\boxed{S_{\text{carriage}}=6\text{ km/h}}
-\]
+$$
+S_{\text{carriage}} - 3 = 3 \implies \boxed{S_{\text{carriage}} = 6\text{ km/h}}
+$$
 
 ### Example 3: Bus and truck
 
-A bus travels at \(45\text{ km/h}\) and catches a truck \(150\text{ m}\) ahead in \(30\text{ s}\). Find the truck's speed.
+A bus travels at $45\text{ km/h}$ and catches a truck $150\text{ m}$ ahead in $30\text{ s}$. Find the truck's speed.
 
-\[
-S_r=\frac{150}{30}=5\text{ m/s}
-\]
+$$
+S_r = \frac{150}{30} = 5\text{ m/s}
+$$
 
 Convert relative speed:
 
-\[
-5\times\frac{18}{5}=18\text{ km/h}
-\]
+$$
+5 \times \frac{18}{5} = 18\text{ km/h}
+$$
 
-\[
-S_{\text{bus}}-S_{\text{truck}}=18
-\]
+$$
+S_{\text{bus}} - S_{\text{truck}} = 18
+$$
 
-\[
-45-S_{\text{truck}}=18
-\implies\boxed{S_{\text{truck}}=27\text{ km/h}}
-\]
+$$
+45 - S_{\text{truck}} = 18 \implies \boxed{S_{\text{truck}} = 27\text{ km/h}}
+$$
 
 ---
 
@@ -285,25 +267,25 @@ S_{\text{bus}}-S_{\text{truck}}=18
 
 When two people or vehicles move towards each other, their speeds add.
 
-\[
-\boxed{T_{\text{meet}}=\frac{\text{Initial distance between them}}{S_1+S_2}}
-\]
+$$
+\boxed{T_{\text{meet}} = \frac{\text{Initial distance between them}}{S_1 + S_2}}
+$$
 
 ### Example: Two people moving towards each other
 
-Two people are \(19\text{ km}\) apart and move towards each other at \(21\text{ km/h}\) and \(17\text{ km/h}\). When will they meet?
+Two people are $19\text{ km}$ apart and move towards each other at $21\text{ km/h}$ and $17\text{ km/h}$. When will they meet?
 
-\[
-S_r=21+17=38\text{ km/h}
-\]
+$$
+S_r = 21 + 17 = 38\text{ km/h}
+$$
 
-\[
-T=\frac{19}{38}=\frac12\text{ hour}
-\]
+$$
+T = \frac{19}{38} = \frac{1}{2}\text{ hour}
+$$
 
-\[
-\boxed{T=30\text{ minutes}}
-\]
+$$
+\boxed{T = 30\text{ minutes}}
+$$
 
 ---
 
@@ -313,51 +295,51 @@ T=\frac{19}{38}=\frac12\text{ hour}
 
 The train needs to cover its own length relative to the person.
 
-\[
-\boxed{T=\frac{L_{\text{train}}}{S_{\text{relative}}}}
-\]
+$$
+\boxed{T = \frac{L_{\text{train}}}{S_{\text{relative}}}}
+$$
 
 ### Crossing another train
 
 The trains must completely pass one another, so the total distance is the sum of their lengths.
 
-\[
-\boxed{D=L_1+L_2}
-\]
+$$
+\boxed{D = L_1 + L_2}
+$$
 
-\[
-\boxed{T=\frac{L_1+L_2}{S_{\text{relative}}}}
-\]
+$$
+\boxed{T = \frac{L_1 + L_2}{S_{\text{relative}}}}
+$$
 
 Use:
-- **Same direction:** \(S_{\text{relative}}=\lvert S_1-S_2\rvert\)
-- **Opposite directions:** \(S_{\text{relative}}=S_1+S_2\)
+- **Same direction:** $S_{\text{relative}} = \lvert S_1 - S_2\rvert$
+- **Opposite directions:** $S_{\text{relative}} = S_1 + S_2$
 
 ### Example: Two trains moving in opposite directions
 
-Two trains of lengths \(121\text{ m}\) and \(99\text{ m}\) travel in opposite directions at \(40\text{ km/h}\) and \(32\text{ km/h}\). Find the time they take to cross each other completely.
+Two trains of lengths $121\text{ m}$ and $99\text{ m}$ travel in opposite directions at $40\text{ km/h}$ and $32\text{ km/h}$. Find the time they take to cross each other completely.
 
 **Total distance**
 
-\[
-D=121+99=220\text{ m}
-\]
+$$
+D = 121 + 99 = 220\text{ m}
+$$
 
 **Relative speed**
 
-\[
-S_r=40+32=72\text{ km/h}
-\]
+$$
+S_r = 40 + 32 = 72\text{ km/h}
+$$
 
-\[
-72\times\frac{5}{18}=20\text{ m/s}
-\]
+$$
+72 \times \frac{5}{18} = 20\text{ m/s}
+$$
 
 **Crossing time**
 
-\[
-T=\frac{220}{20}=\boxed{11\text{ seconds}}
-\]
+$$
+T = \frac{220}{20} = \boxed{11\text{ seconds}}
+$$
 
 ---
 
@@ -367,31 +349,29 @@ This shortcut is useful when the same train crosses a person and then a platform
 
 ### Example
 
-A train crosses a standing person in \(20\text{ s}\) and a platform \(135\text{ m}\) long in \(29\text{ s}\). Find the train's speed.
+A train crosses a standing person in $20\text{ s}$ and a platform $135\text{ m}$ long in $29\text{ s}$. Find the train's speed.
 
-- Crossing a person takes \(20\text{ s}\) to cover the train's own length.
-- Crossing the platform takes \(29\text{ s}\) to cover the train's length plus \(135\text{ m}\).
-- The extra time is \(29-20=9\text{ s}\), and that time accounts for the platform's \(135\text{ m}\).
+- Crossing a person takes $20\text{ s}$ to cover the train's own length.
+- Crossing the platform takes $29\text{ s}$ to cover the train's length plus $135\text{ m}$.
+- The extra time is $29 - 20 = 9\text{ s}$, and that time accounts for the platform's $135\text{ m}$.
 
 Therefore:
 
-\[
-S=\frac{\text{Extra distance}}{\text{Extra time}}
-=\frac{135}{29-20}
-=\frac{135}{9}=15\text{ m/s}
-\]
+$$
+S = \frac{\text{Extra distance}}{\text{Extra time}} = \frac{135}{29 - 20} = \frac{135}{9} = 15\text{ m/s}
+$$
 
 Convert to km/h:
 
-\[
-15\times\frac{18}{5}=\boxed{54\text{ km/h}}
-\]
+$$
+15 \times \frac{18}{5} = \boxed{54\text{ km/h}}
+$$
 
 **Shortcut:**
 
-\[
-\boxed{S=\frac{\text{Difference in object lengths}}{\text{Difference in crossing times}}}
-\]
+$$
+\boxed{S = \frac{\text{Difference in object lengths}}{\text{Difference in crossing times}}}
+$$
 
 This applies when the same train travels at constant speed and the difference in distance is known.
 
@@ -403,78 +383,78 @@ This applies when the same train travels at constant speed and the difference in
 
 When two journeys take the same amount of time, distance is directly proportional to speed.
 
-\[
-\boxed{\frac{D_1}{D_2}=\frac{S_1}{S_2}}
-\]
+$$
+\boxed{\frac{D_1}{D_2} = \frac{S_1}{S_2}}
+$$
 
 ### Example: Out-and-back meeting point
 
-P and Q are \(42\text{ km}\) apart. Rohit and Mohit start at P and travel towards Q at \(6\text{ km/h}\) and \(8\text{ km/h}\), respectively. Mohit reaches Q, immediately turns back, and meets Rohit at R. Find \(PR\).
+P and Q are $42\text{ km}$ apart. Rohit and Mohit start at P and travel towards Q at $6\text{ km/h}$ and $8\text{ km/h}$, respectively. Mohit reaches Q, immediately turns back, and meets Rohit at R. Find $PR$.
 
-Let \(QR=x\text{ km}\).
+Let $QR = x\text{ km}$.
 
-- Mohit's distance: \(42+x\)
-- Rohit's distance: \(42-x\)
+- Mohit's distance: $42 + x$
+- Rohit's distance: $42 - x$
 
 They travel for the same elapsed time, so:
 
-\[
-\frac{42+x}{42-x}=\frac{8}{6}=\frac43
-\]
+$$
+\frac{42 + x}{42 - x} = \frac{8}{6} = \frac{4}{3}
+$$
 
 Cross-multiply:
 
-\[
-3(42+x)=4(42-x)
-\]
+$$
+3(42 + x) = 4(42 - x)
+$$
 
-\[
-126+3x=168-4x
-\]
+$$
+126 + 3x = 168 - 4x
+$$
 
-\[
-7x=42\implies x=6\text{ km}
-\]
+$$
+7x = 42 \implies x = 6\text{ km}
+$$
 
 Therefore:
 
-\[
-PR=42-x=42-6=\boxed{36\text{ km}}
-\]
+$$
+PR = 42 - x = 42 - 6 = \boxed{36\text{ km}}
+$$
 
 ### Case B: Constant distance
 
 For a fixed distance, speed and time are inversely proportional.
 
-\[
-\boxed{S\propto\frac1T}
-\]
+$$
+\boxed{S \propto \frac{1}{T}}
+$$
 
-\[
-\boxed{\frac{T_1}{T_2}=\frac{S_2}{S_1}}
-\]
+$$
+\boxed{\frac{T_1}{T_2} = \frac{S_2}{S_1}}
+$$
 
 ### Example: Reduced speed and lateness
 
-A student walks at \(\frac34\) of their usual speed and arrives \(12\) minutes late. Find the usual travel time.
+A student walks at $\frac{3}{4}$ of their usual speed and arrives $12\text{ minutes}$ late. Find the usual travel time.
 
 Speed ratio (usual : new):
 
-\[
+$$
 4:3
-\]
+$$
 
 Since distance is fixed, the time ratio is inverted:
 
-\[
-T_{\text{usual}}:T_{\text{new}}=3:4
-\]
+$$
+T_{\text{usual}} : T_{\text{new}} = 3:4
+$$
 
-The difference is \(1\) ratio unit, equal to \(12\) minutes.
+The difference is $1\text{ ratio unit}$, equal to $12\text{ minutes}$.
 
-\[
-T_{\text{usual}}=3\times12=\boxed{36\text{ minutes}}
-\]
+$$
+T_{\text{usual}} = 3 \times 12 = \boxed{36\text{ minutes}}
+$$
 
 ---
 
@@ -484,150 +464,141 @@ T_{\text{usual}}=3\times12=\boxed{36\text{ minutes}}
 
 Always use total distance divided by total time:
 
-\[
-\boxed{\text{Average speed}=\frac{\text{Total distance}}{\text{Total time}}}
-\]
+$$
+\boxed{\text{Average speed} = \frac{\text{Total distance}}{\text{Total time}}}
+$$
 
 ### Special case 1: Equal distances
 
-If a person travels one distance at speed \(x\) and returns over the same distance at speed \(y\), then:
+If a person travels one distance at speed $x$ and returns over the same distance at speed $y$, then:
 
-\[
-\boxed{S_{\text{avg}}=\frac{2xy}{x+y}}
-\]
+$$
+\boxed{S_{\text{avg}} = \frac{2xy}{x + y}}
+$$
 
-**Do not use \(\frac{x+y}{2}\) for equal-distance trips.**
+**Do not use $\frac{x + y}{2}$ for equal-distance trips.**
 
-**Example:** Travel to a destination at \(20\text{ km/h}\) and return over the same distance at \(30\text{ km/h}\).
+**Example:** Travel to a destination at $20\text{ km/h}$ and return over the same distance at $30\text{ km/h}$.
 
-\[
-S_{\text{avg}}=\frac{2\times20\times30}{20+30}
-=\frac{1200}{50}
-=\boxed{24\text{ km/h}}
-\]
+$$
+S_{\text{avg}} = \frac{2 \times 20 \times 30}{20 + 30} = \frac{1200}{50} = \boxed{24\text{ km/h}}
+$$
 
-The average is not \(25\text{ km/h}\), because the slower leg takes more time.
+The average is not $25\text{ km/h}$, because the slower leg takes more time.
 
 ### Special case 2: Equal time durations
 
-If a person travels at speed \(x\) for time \(t\), then at speed \(y\) for the same time \(t\):
+If a person travels at speed $x$ for time $t$, then at speed $y$ for the same time $t$:
 
-\[
-\boxed{S_{\text{avg}}=\frac{x+y}{2}}
-\]
+$$
+\boxed{S_{\text{avg}} = \frac{x + y}{2}}
+$$
 
 ### Combined exam examples
 
 **Car: Delhi to Chandigarh and back**
 
-The car travels at \(120\text{ km/h}\) on the onward journey and \(80\text{ km/h}\) on the return journey. The distances are equal.
+The car travels at $120\text{ km/h}$ on the onward journey and $80\text{ km/h}$ on the return journey. The distances are equal.
 
-\[
-S_{\text{avg}}=\frac{2\times120\times80}{120+80}
-=\boxed{96\text{ km/h}}
-\]
+$$
+S_{\text{avg}} = \frac{2 \times 120 \times 80}{120 + 80} = \boxed{96\text{ km/h}}
+$$
 
 **Train: Two journeys of equal duration**
 
-A train travels at \(60\text{ km/h}\) for time \(t\), then at \(40\text{ km/h}\) for the same time \(t\).
+A train travels at $60\text{ km/h}$ for time $t$, then at $40\text{ km/h}$ for the same time $t$.
 
-\[
-S_{\text{avg}}=\frac{60+40}{2}
-=\boxed{50\text{ km/h}}
-\]
+$$
+S_{\text{avg}} = \frac{60 + 40}{2} = \boxed{50\text{ km/h}}
+$$
 
 ---
 
 ## 10. Boats and Streams
 
 Let:
-- \(B\) = speed of the boat in still water
-- \(W\) = speed of the stream/current
-- \(D\) = downstream speed
-- \(U\) = upstream speed
+- $B$ = speed of the boat in still water
+- $W$ = speed of the stream/current
+- $D$ = downstream speed
+- $U$ = upstream speed
 
 ### Downstream and upstream formulas
 
 **Downstream:** The current helps the boat.
 
-\[
-\boxed{D=B+W}
-\]
+$$
+\boxed{D = B + W}
+$$
 
 **Upstream:** The current opposes the boat.
 
-\[
-\boxed{U=B-W}
-\]
+$$
+\boxed{U = B - W}
+$$
 
 ### Standard shortcuts
 
 Add the downstream and upstream speeds to find the still-water boat speed:
 
-\[
-\boxed{B=\frac{D+U}{2}}
-\]
+$$
+\boxed{B = \frac{D + U}{2}}
+$$
 
 Subtract upstream speed from downstream speed and divide by two to find the stream speed:
 
-\[
-\boxed{W=\frac{D-U}{2}}
-\]
+$$
+\boxed{W = \frac{D - U}{2}}
+$$
 
 ### Example 1: Find the speed of the current
 
-A boat covers \(100\text{ km}\) downstream in \(10\text{ h}\) and \(75\text{ km}\) upstream in \(15\text{ h}\). Find the current speed.
+A boat covers $100\text{ km}$ downstream in $10\text{ h}$ and $75\text{ km}$ upstream in $15\text{ h}$. Find the current speed.
 
 **Downstream speed**
 
-\[
-D=\frac{100}{10}=10\text{ km/h}
-\]
+$$
+D = \frac{100}{10} = 10\text{ km/h}
+$$
 
 **Upstream speed**
 
-\[
-U=\frac{75}{15}=5\text{ km/h}
-\]
+$$
+U = \frac{75}{15} = 5\text{ km/h}
+$$
 
 **Current speed**
 
-\[
-W=\frac{D-U}{2}=\frac{10-5}{2}
-=\boxed{2.5\text{ km/h}}
-\]
+$$
+W = \frac{D - U}{2} = \frac{10 - 5}{2} = \boxed{2.5\text{ km/h}}
+$$
 
 **Boat speed in still water**
 
-\[
-B=\frac{D+U}{2}=\frac{10+5}{2}
-=\boxed{7.5\text{ km/h}}
-\]
+$$
+B = \frac{D + U}{2} = \frac{10 + 5}{2} = \boxed{7.5\text{ km/h}}
+$$
 
 ### Example 2: Find the speed of the person/boat in still water
 
-A man travels \(10\text{ km}\) upstream in \(8\text{ h}\) and \(36\text{ km}\) downstream in \(6\text{ h}\). Find his speed in still water.
+A man travels $10\text{ km}$ upstream in $8\text{ h}$ and $36\text{ km}$ downstream in $6\text{ h}$. Find his speed in still water.
 
 **Upstream speed**
 
-\[
-U=\frac{10}{8}=1.25\text{ km/h}
-\]
+$$
+U = \frac{10}{8} = 1.25\text{ km/h}
+$$
 
 **Downstream speed**
 
-\[
-D=\frac{36}{6}=6\text{ km/h}
-\]
+$$
+D = \frac{36}{6} = 6\text{ km/h}
+$$
 
 **Still-water speed**
 
-\[
-B=\frac{D+U}{2}
-=\frac{6+1.25}{2}
-=\frac{7.25}{2}
-=\boxed{3.625\text{ km/h}}
-\]
+$$
+B = \frac{D + U}{2} = \frac{6 + 1.25}{2} = \frac{7.25}{2} = \boxed{3.625\text{ km/h}}
+$$
 
 ---
 
@@ -640,17 +611,17 @@ In timed aptitude rounds, a direct formula or ratio method can save valuable tim
 ### What to practise
 
 1. Memorize the conversion factors:
-   \[
-   \boxed{\text{km/h}\times\frac{5}{18}=\text{m/s}}
+   $$
+   \boxed{\text{km/h} \times \frac{5}{18} = \text{m/s}}
    \qquad
-   \boxed{\text{m/s}\times\frac{18}{5}=\text{km/h}}
-   \]
+   \boxed{\text{m/s} \times \frac{18}{5} = \text{km/h}}
+   $$
 2. For train questions, check whether the object is a point object or has a length.
 3. For relative motion, identify the direction first, then subtract or add speeds.
-4. For boats and streams, calculate \(D\) and \(U\) first, then use:
-   \[
-   B=\frac{D+U}{2},\qquad W=\frac{D-U}{2}
-   \]
+4. For boats and streams, calculate $D$ and $U$ first, then use:
+   $$
+   B = \frac{D + U}{2}, \qquad W = \frac{D - U}{2}
+   $$
 5. For average speed, check whether the journey has equal distances or equal time durations.
 
 ### Common mistakes to avoid
@@ -658,85 +629,85 @@ In timed aptitude rounds, a direct formula or ratio method can save valuable tim
 - Mixing m/s and km/h while adding or subtracting speeds.
 - Forgetting to add train and platform lengths when crossing an extended object.
 - Using the sum of speeds for two bodies moving in the same direction.
-- Using \(\frac{x+y}{2}\) for an equal-distance round trip.
+- Using $\frac{x + y}{2}$ for an equal-distance round trip.
 - Confusing downstream and upstream: downstream is faster when the current is flowing in the direction of travel.
 
 ---
 
 ## 12. Practice Problem: Two Bridges
 
-**Question:** A train crosses two bridges of lengths \(800\text{ m}\) and \(400\text{ m}\) in \(100\text{ s}\) and \(60\text{ s}\), respectively. Find the length and speed of the train.
+**Question:** A train crosses two bridges of lengths $800\text{ m}$ and $400\text{ m}$ in $100\text{ s}$ and $60\text{ s}$, respectively. Find the length and speed of the train.
 
 ### Step-by-step solution
 
 Let:
-- \(L\) = train length in metres
-- \(S\) = train speed in m/s
+- $L$ = train length in metres
+- $S$ = train speed in m/s
 
-For the \(800\text{ m}\) bridge:
+For the $800\text{ m}$ bridge:
 
-\[
-\frac{L+800}{S}=100
-\]
+$$
+\frac{L + 800}{S} = 100
+$$
 
-\[
-L+800=100S \tag{1}
-\]
+$$
+L + 800 = 100S \tag{1}
+$$
 
-For the \(400\text{ m}\) bridge:
+For the $400\text{ m}$ bridge:
 
-\[
-\frac{L+400}{S}=60
-\]
+$$
+\frac{L + 400}{S} = 60
+$$
 
-\[
-L+400=60S \tag{2}
-\]
+$$
+L + 400 = 60S \tag{2}
+$$
 
 Subtract equation (2) from equation (1):
 
-\[
-400=40S
-\]
+$$
+400 = 40S
+$$
 
-\[
-\boxed{S=10\text{ m/s}}
-\]
+$$
+\boxed{S = 10\text{ m/s}}
+$$
 
 Convert to km/h:
 
-\[
-10\times\frac{18}{5}=\boxed{36\text{ km/h}}
-\]
+$$
+10 \times \frac{18}{5} = \boxed{36\text{ km/h}}
+$$
 
-Substitute \(S=10\) into equation (2):
+Substitute $S = 10$ into equation (2):
 
-\[
-L+400=60\times10=600
-\]
+$$
+L + 400 = 60 \times 10 = 600
+$$
 
-\[
-\boxed{L=200\text{ m}}
-\]
+$$
+\boxed{L = 200\text{ m}}
+$$
 
 ### Final answer
 
-- **Train length:** \(\boxed{200\text{ m}}\)
-- **Train speed:** \(\boxed{10\text{ m/s}=36\text{ km/h}}\)
+- **Train length:** $\boxed{200\text{ m}}$
+- **Train speed:** $\boxed{10\text{ m/s} = 36\text{ km/h}}$
 
 ### Faster shortcut
 
-The difference between bridge lengths is \(800-400=400\text{ m}\), and the difference between crossing times is \(100-60=40\text{ s}\).
+The difference between bridge lengths is $800 - 400 = 400\text{ m}$, and the difference between crossing times is $100 - 60 = 40\text{ s}$.
 
-\[
-S=\frac{400}{40}=10\text{ m/s}
-\]
+$$
+S = \frac{400}{40} = 10\text{ m/s}
+$$
 
 Then:
 
-\[
-L=(S\times60)-400=(10\times60)-400=200\text{ m}
-\]
+$$
+L = (S \times 60) - 400 = (10 \times 60) - 400 = 200\text{ m}
+$$
 
 ---
 
@@ -744,24 +715,24 @@ L=(S\times60)-400=(10\times60)-400=200\text{ m}
 
 | Concept | Formula |
 |---|---|
-| Speed | \(S=\frac{D}{T}\) |
-| Distance | \(D=S\times T\) |
-| Time | \(T=\frac{D}{S}\) |
-| km/h to m/s | Multiply by \(\frac{5}{18}\) |
-| m/s to km/h | Multiply by \(\frac{18}{5}\) |
-| Train crosses a point object | \(T=\frac{L_{\text{train}}}{S}\) |
-| Train crosses a platform | \(T=\frac{L_{\text{train}}+L_{\text{platform}}}{S}\) |
-| Relative speed, same direction | \(\lvert S_1-S_2\rvert\) |
-| Relative speed, opposite directions | \(S_1+S_2\) |
-| Chasing time | \(\frac{\text{Initial gap}}{S_{\text{chaser}}-S_{\text{runner}}}\) |
-| Meeting time | \(\frac{\text{Initial distance}}{S_1+S_2}\) |
-| Average speed, any journey | \(\frac{\text{Total distance}}{\text{Total time}}\) |
-| Average speed, equal distances | \(\frac{2xy}{x+y}\) |
-| Average speed, equal times | \(\frac{x+y}{2}\) |
-| Downstream speed | \(D=B+W\) |
-| Upstream speed | \(U=B-W\) |
-| Boat speed in still water | \(B=\frac{D+U}{2}\) |
-| Stream speed | \(W=\frac{D-U}{2}\) |
+| Speed | $S = \frac{D}{T}$ |
+| Distance | $D = S \times T$ |
+| Time | $T = \frac{D}{S}$ |
+| km/h to m/s | Multiply by $\frac{5}{18}$ |
+| m/s to km/h | Multiply by $\frac{18}{5}$ |
+| Train crosses a point object | $T = \frac{L_{\text{train}}}{S}$ |
+| Train crosses a platform | $T = \frac{L_{\text{train}} + L_{\text{platform}}}{S}$ |
+| Relative speed, same direction | $\lvert S_1 - S_2\rvert$ |
+| Relative speed, opposite directions | $S_1 + S_2$ |
+| Chasing time | $\frac{\text{Initial gap}}{S_{\text{chaser}} - S_{\text{runner}}}$ |
+| Meeting time | $\frac{\text{Initial distance}}{S_1 + S_2}$ |
+| Average speed, any journey | $\frac{\text{Total distance}}{\text{Total time}}$ |
+| Average speed, equal distances | $\frac{2xy}{x + y}$ |
+| Average speed, equal times | $\frac{x + y}{2}$ |
+| Downstream speed | $D = B + W$ |
+| Upstream speed | $U = B - W$ |
+| Boat speed in still water | $B = \frac{D + U}{2}$ |
+| Stream speed | $W = \frac{D - U}{2}$ |
 
 ---
 
