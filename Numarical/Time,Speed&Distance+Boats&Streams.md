@@ -19,61 +19,78 @@
 
 ---
 
+You’re right—the formulas are showing as raw LaTeX. The section uses `\(...\)` and `\[...\]`, which GitHub Markdown doesn’t render. Use `$...$` for inline math and `$$...$$` on separate lines for display math.
+
 ## 1. Fundamentals and Unit Conversion
 
 ### Core formulas
 
 Let:
-- \(S\) = speed
-- \(D\) = distance
-- \(T\) = time
+
+- $S$ = speed
+- $D$ = distance
+- $T$ = time
 
 The three equivalent formulas are:
 
-\[
-\boxed{S=\frac{D}{T}}
+$$
+S = \frac{D}{T}
 \qquad
-\boxed{D=S\times T}
+D = S \times T
 \qquad
-\boxed{T=\frac{D}{S}}
-\]
+T = \frac{D}{S}
+$$
 
 ### Unit conversion
 
-- **km/h to m/s:** multiply by \(\frac{5}{18}\).
-- **m/s to km/h:** multiply by \(\frac{18}{5}\).
+- **km/h to m/s:** multiply by $\frac{5}{18}$.
+- **m/s to km/h:** multiply by $\frac{18}{5}$.
 
-\[
-\boxed{\text{m/s}=\text{km/h}\times\frac{5}{18}}
-\qquad
-\boxed{\text{km/h}=\text{m/s}\times\frac{18}{5}}
-\]
+$$
+\text{Speed in m/s}
+=
+\text{Speed in km/h} \times \frac{5}{18}
+$$
+
+$$
+\text{Speed in km/h}
+=
+\text{Speed in m/s} \times \frac{18}{5}
+$$
 
 Why does this work?
 
-\[
-1\text{ km/h}=\frac{1000\text{ m}}{3600\text{ s}}=\frac{5}{18}\text{ m/s}
-\]
+$$
+1\text{ km/h}
+=
+\frac{1000\text{ m}}{3600\text{ s}}
+=
+\frac{5}{18}\text{ m/s}
+$$
 
 ### Warm-up examples
 
-**Example 1: Convert \(180\text{ km/h}\) to m/s.**
+**Example 1: Convert $180\text{ km/h}$ to m/s.**
 
-\[
-180\times\frac{5}{18}=\boxed{50\text{ m/s}}
-\]
+$$
+180 \times \frac{5}{18}
+=
+50\text{ m/s}
+$$
 
-**Example 2: A car covers \(7.5\text{ m}\) in \(1\text{ s}\). Find its speed in km/h.**
+**Example 2: A car covers $7.5\text{ m}$ in $1\text{ s}$. Find its speed in km/h.**
 
-\[
-S=\frac{7.5}{1}=7.5\text{ m/s}
-\]
+$$
+S = \frac{7.5}{1} = 7.5\text{ m/s}
+$$
 
-\[
-7.5\times\frac{18}{5}=1.5\times18=\boxed{27\text{ km/h}}
-\]
-
----
+$$
+7.5 \times \frac{18}{5}
+=
+1.5 \times 18
+=
+27\text{ km/h}
+$$ 
 
 ## 2. Trains Crossing Stationary Objects
 
