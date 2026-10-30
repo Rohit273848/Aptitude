@@ -33,13 +33,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
     <div className="dashboard-container">
       {/* Hero Banner */}
       <div className="dashboard-hero">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+        <div className="dashboard-hero-tags">
           <span className="subject-section-tag">TCS National Qualifier Test (NQT)</span>
           <span className="subject-difficulty-tag">Placement Syllabus 2026</span>
         </div>
 
         <h2>TCS NQT Aptitude Learning Platform</h2>
-        <p style={{ maxWidth: '780px', fontSize: '1rem', color: 'var(--text-muted)' }}>
+        <p className="dashboard-hero-desc">
           A structured, modular revision environment organizing the official TCS NQT Foundation and Advance syllabus. Topics with verified notes are fully interactive with KaTeX mathematics, collapsible solutions, and active recall practice.
         </p>
 
@@ -49,15 +49,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="stat-metric-label">Syllabus Topics</div>
           </div>
           <div className="stat-metric-card">
-            <div className="stat-metric-number" style={{ color: 'var(--primary-action)' }}>{readyTopics}</div>
+            <div className="stat-metric-number stat-highlight">{readyTopics}</div>
             <div className="stat-metric-label">Ready to Study</div>
           </div>
           <div className="stat-metric-card">
-            <div className="stat-metric-number" style={{ color: 'var(--color-stack-gray)' }}>{neededTopics}</div>
+            <div className="stat-metric-number stat-needed">{neededTopics}</div>
             <div className="stat-metric-label">Notes Needed</div>
           </div>
           <div className="stat-metric-card">
-            <div className="stat-metric-number" style={{ color: 'var(--primary-action)' }}>{completedCount}</div>
+            <div className="stat-metric-number stat-completed">{completedCount}</div>
             <div className="stat-metric-label">Topics Completed</div>
           </div>
         </div>
@@ -76,10 +76,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem' }}>
+        <div className="featured-lessons-grid">
           {/* Percentages Card */}
           <div
-            className="subject-card"
+            className="subject-card featured-lesson-card"
             style={{ borderLeft: '4px solid var(--primary-action)', cursor: 'pointer' }}
             onClick={() => onSelectTopic('percentages')}
           >
@@ -105,7 +105,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Speed, Time & Distance Card */}
           <div
-            className="subject-card"
+            className="subject-card featured-lesson-card"
             style={{ borderLeft: '4px solid var(--primary-action)', cursor: 'pointer' }}
             onClick={() => onSelectTopic('speed-time-and-distance')}
           >
@@ -180,7 +180,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </div>
 
       {/* Adding Notes Callout Banner */}
-      <div style={{ padding: '1.75rem', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem' }}>
+      <div className="dashboard-callout-banner">
         <div>
           <h4 style={{ fontSize: '1.1rem', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
             Want to add notes for another topic?

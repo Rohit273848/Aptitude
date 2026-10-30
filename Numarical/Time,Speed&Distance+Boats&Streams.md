@@ -775,10 +775,10 @@ $$
 $$
 
 ### Final answer
-
+ 
 - **Train length:** $\Large \boxed{200\text{ m}}$
 - **Train speed:** $\Large \boxed{10\text{ m/s} = 36\text{ km/h}}$
-
+  
 ### Faster shortcut
 
 The difference between bridge lengths is $800 - 400 = 400\text{ m}$, and the difference between crossing times is $100 - 60 = 40\text{ s}$.

@@ -7,6 +7,8 @@ import { Breadcrumbs } from './components/Breadcrumbs';
 import { Dashboard } from './components/Dashboard';
 import { PercentageView } from './components/PercentageView';
 import { TSDView } from './components/TSDView';
+import { TimeWorkView } from './components/TimeWorkView';
+import { RatioView } from './components/RatioView';
 import { EmptyTopicView } from './components/EmptyTopicView';
 import { AddNotesModal } from './components/AddNotesModal';
 import { ArrowRight, Check, Search } from 'lucide-react';
@@ -63,6 +65,18 @@ export const App: React.FC = () => {
   const handleCloseMobileSidebar = () => {
     setIsMobileSidebarOpen(false);
   };
+
+  // Lock background body scroll when mobile sidebar drawer is open
+  useEffect(() => {
+    if (isMobileSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileSidebarOpen]);
 
   const handleToggleComplete = (topicId: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -131,8 +145,8 @@ export const App: React.FC = () => {
       <Header
         onGoHome={handleGoHome}
         onOpenAddNotes={() => setIsAddNotesModalOpen(true)}
-        completedCount={completedTopics.filter(id => ['percentages', 'speed-time-and-distance'].includes(id)).length}
-        totalAvailable={2}
+        completedCount={completedTopics.filter(id => ['percentages', 'speed-time-and-distance', 'work-and-time', 'number-system-lcm-hcf', 'ratios-proportion', 'allegations-and-mixtures'].includes(id)).length}
+        totalAvailable={6}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onToggleMobileSidebar={handleToggleMobileSidebar}
@@ -169,7 +183,7 @@ export const App: React.FC = () => {
 
           {/* Search Results View */}
           {searchQuery.trim() ? (
-            <div style={{ backgroundColor: 'var(--bg-card)', padding: '2rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-subtle)' }}>
+            <div className="search-results-panel">
               <h3 style={{ fontSize: '1.3rem', color: 'var(--text-main)', marginBottom: '0.4rem' }}>
                 Search Results for "{searchQuery}"
               </h3>
@@ -195,19 +209,10 @@ export const App: React.FC = () => {
                   {searchResults.map(({ topic, group, subject }) => (
                     <div
                       key={topic.id}
-                      style={{
-                        padding: '1rem',
-                        backgroundColor: 'var(--bg-surface)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: 'var(--radius-sm)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        cursor: 'pointer'
-                      }}
+                      className="search-result-item"
                       onClick={() => handleSelectTopic(topic.id)}
                     >
-                      <div>
+                      <div className="search-result-info">
                         <div style={{ fontSize: '0.75rem', color: 'var(--color-stack-gray)', marginBottom: '0.2rem' }}>
                           {subject.section} &bull; {subject.title} &bull; {group.title}
                         </div>
@@ -216,7 +221,7 @@ export const App: React.FC = () => {
                         </h4>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div className="search-result-actions">
                         {topic.status === 'ready' ? (
                           <span className="topic-status-pill ready">Ready to study</span>
                         ) : (
@@ -248,6 +253,18 @@ export const App: React.FC = () => {
             <TSDView
               isCompleted={completedTopics.includes('speed-time-and-distance')}
               onToggleComplete={() => handleToggleComplete('speed-time-and-distance')}
+            />
+          ) : (currentTopicData?.topic.id === 'work-and-time' || currentTopicData?.topic.id === 'number-system-lcm-hcf') ? (
+            /* Time & Work, Pipes & Cisterns, LCM & HCF Study View */
+            <TimeWorkView
+              isCompleted={completedTopics.includes(currentTopicData.topic.id)}
+              onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
+            />
+          ) : (currentTopicData?.topic.id === 'ratios-proportion' || currentTopicData?.topic.id === 'allegations-and-mixtures') ? (
+            /* Ratio & Proportion, Mixtures & Partnership Study View */
+            <RatioView
+              isCompleted={completedTopics.includes(currentTopicData.topic.id)}
+              onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
             />
           ) : currentTopicData ? (
             /* Empty State for topics without notes */

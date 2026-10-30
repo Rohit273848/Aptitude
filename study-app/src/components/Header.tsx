@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="site-header" role="banner">
       <div className="header-inner">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="header-brand-group">
           {/* Mobile hamburger menu button */}
           {onToggleMobileSidebar && (
             <button
@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label={isMobileSidebarOpen ? 'Close navigation drawer' : 'Open navigation drawer'}
               aria-expanded={isMobileSidebarOpen}
             >
-              <Menu size={20} />
+              <Menu size={22} />
             </button>
           )}
 
@@ -56,13 +56,13 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="brand-text-group">
               <h1>NQT Aptitude Prep</h1>
-              <div className="brand-subtext">Quantitative &bull; Reasoning &bull; Verbal &bull; Advance</div>
+              <div className="brand-subtext desktop-only">Quantitative &bull; Reasoning &bull; Verbal &bull; Advance</div>
             </div>
           </button>
         </div>
 
-        {/* Global Search across syllabus */}
-        <div className="header-search-box">
+        {/* Global Search across syllabus (Desktop / Tablet view) */}
+        <div className="header-search-box desktop-search">
           <Search size={14} className="search-icon-left" aria-hidden="true" />
           <input
             type="search"
@@ -84,10 +84,11 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
+        {/* Navigation Actions */}
         <div className="header-nav-actions">
           <button
             type="button"
-            className="header-pill-btn"
+            className="header-pill-btn desktop-only"
             onClick={onGoHome}
             title="View complete syllabus overview"
           >
@@ -97,22 +98,49 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             type="button"
-            className="header-pill-btn"
+            className="header-pill-btn header-add-notes-btn"
             onClick={onOpenAddNotes}
             title="Guide to adding more topic notes"
           >
             <PlusCircle size={14} />
-            <span>Add Notes</span>
+            <span className="btn-text-full">Add Notes</span>
+            <span className="btn-text-short">Notes</span>
           </button>
 
           <div
-            className="header-pill-btn"
+            className="header-pill-btn header-progress-pill"
             style={{ cursor: 'default', backgroundColor: 'var(--bg-nav-darker)', borderColor: 'var(--color-stack-gray)' }}
             title="Completed topics"
           >
             <CheckSquare size={14} color="var(--color-key-lime-pie)" />
-            <span>{completedCount}/{totalAvailable} Ready Done</span>
+            <span className="btn-text-full">{completedCount}/{totalAvailable} Ready Done</span>
+            <span className="btn-text-short">{completedCount}/{totalAvailable} Done</span>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Search Row (Spans full width on small screens) */}
+      <div className="header-mobile-search-bar mobile-only">
+        <div className="header-search-box mobile-search-box">
+          <Search size={15} className="search-icon-left" aria-hidden="true" />
+          <input
+            type="search"
+            className="header-search-input"
+            placeholder="Search syllabus & notes..."
+            value={searchQuery}
+            onChange={e => onSearchChange(e.target.value)}
+            aria-label="Search syllabus topics and available notes"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="search-clear-btn"
+              onClick={() => onSearchChange('')}
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
         </div>
       </div>
     </header>

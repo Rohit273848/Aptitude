@@ -76,6 +76,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [searchFilter, setSearchFilter] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  // Responsive desktop detection for collapsed rail vs mobile drawer
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 960;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 960);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Expanded subject groups state
   const [expandedSubjects, setExpandedSubjects] = useState<{ [key: string]: boolean }>({
     'foundation-numerical-ability': true,
@@ -427,11 +443,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  // If in desktop collapsed mode, render compact icon rail
-  if (isCollapsed) {
+  // If in desktop collapsed mode, render compact icon rail (desktop only)
+  if (isDesktop && isCollapsed && !isMobileOpen) {
     return (
       <aside
-        className="app-sidebar collapsed"
+        className="app-sidebar collapsed desktop-only"
         role="navigation"
         aria-label="TCS NQT Syllabus Navigation (Collapsed)"
       >

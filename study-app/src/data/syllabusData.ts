@@ -18,7 +18,11 @@ export const syllabusData: SubjectArea[] = [
           {
             id: 'number-system-lcm-hcf',
             title: 'Number System, LCM & HCF',
-            status: 'needed'
+            status: 'ready',
+            noteFile: 'Numarical/Time&Work+Pipes&Cisterns+LCM&HCF.md',
+            summary: 'Number theory fundamentals, prime distribution counts (1-50, 51-100, 101-200), LCM/HCF of fractions & decimals, ratio multipliers, and periodic simultaneous events.',
+            formulaCount: 12,
+            exampleCount: 10
           },
           {
             id: 'divisibility',
@@ -64,17 +68,29 @@ export const syllabusData: SubjectArea[] = [
           {
             id: 'allegations-and-mixtures',
             title: 'Allegations and Mixtures',
-            status: 'needed'
+            status: 'ready',
+            noteFile: 'Numarical/Ratio&Proportion+Mixtures&Partnership.md',
+            summary: 'Untouched component invariants, dilution formulas, and ratio replacement mechanics.',
+            formulaCount: 12,
+            exampleCount: 8
           },
           {
             id: 'ratios-proportion',
             title: 'Ratios, Proportion',
-            status: 'needed'
+            status: 'ready',
+            noteFile: 'Numarical/Ratio&Proportion+Mixtures&Partnership.md',
+            summary: 'Ratio combination grid, hide method, unit scalers, mean/third/fourth proportions, coin problems, partnership profit distributions, and age difference invariance.',
+            formulaCount: 16,
+            exampleCount: 12
           },
           {
             id: 'work-and-time',
             title: 'Work and Time',
-            status: 'needed'
+            status: 'ready',
+            noteFile: 'Numarical/Time&Work+Pipes&Cisterns+LCM&HCF.md',
+            summary: '6 complete modules covering efficiency model, 3-step LCM workflow, 2/3/4-worker combined rates, fractional work, continuous worker deduction, and pipes & cisterns.',
+            formulaCount: 16,
+            exampleCount: 12
           },
           {
             id: 'speed-time-and-distance',

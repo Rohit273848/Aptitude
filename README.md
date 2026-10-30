@@ -18,3 +18,5 @@ A curated collection of quantitative aptitude revision notes and interactive stu
 
 - [Time, Speed & Distance + Boats & Streams Notes](Numarical/Time,Speed&Distance+Boats&Streams.md)
 - [Percentage Notes](Numarical/Percentage.md)
+- [Time & Work, Pipes & Cisterns + LCM & HCF Notes](Numarical/Time&Work+Pipes&Cisterns+LCM&HCF.md)
+- [Ratio & Proportion, Mixtures & Partnership Notes](Numarical/Ratio&Proportion+Mixtures&Partnership.md)

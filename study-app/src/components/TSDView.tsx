@@ -140,14 +140,14 @@ export const TSDView: React.FC<TSDViewProps> = ({
 
       {/* Lesson Navigation & Toolbar */}
       <div className="lesson-controls-bar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div className="lesson-controls-group">
           <button
             type="button"
             className="lesson-control-btn"
             onClick={() => setExpandAll(prev => !prev)}
           >
             {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse All Solutions' : 'Expand All Solutions'}</span>
+            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
           </button>
 
           <a href="#unit-converter" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
@@ -155,33 +155,26 @@ export const TSDView: React.FC<TSDViewProps> = ({
           </a>
 
           <a href="#formula-sheet" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📐 Master Formula Sheet</span>
+            <span>📐 Master Formulas</span>
           </a>
 
           <a href="#placement-quiz" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🎯 Placement Quiz Mode</span>
+            <span>🎯 Placement Quiz</span>
           </a>
 
           <a href="#corrections-audit" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🔍 Corrections & Audit</span>
+            <span>🔍 Corrections</span>
           </a>
         </div>
 
-        <div style={{ position: 'relative', width: '220px' }}>
-          <Search size={14} style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-stack-gray)' }} />
+        <div className="lesson-search-box">
+          <Search size={14} className="lesson-search-icon" />
           <input
             type="text"
+            className="lesson-search-input"
             placeholder="Search within TSD notes..."
             value={topicSearch}
             onChange={e => setTopicSearch(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.35rem 0.5rem 0.35rem 1.8rem',
-              fontSize: '0.82rem',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--bg-card)'
-            }}
           />
         </div>
       </div>
@@ -399,7 +392,7 @@ export const TSDView: React.FC<TSDViewProps> = ({
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem' }}>
+        <div className="formulas-grid">
           {filteredFormulas.map(f => (
             <div key={f.id} className="formula-item-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
@@ -551,7 +544,7 @@ export const TSDView: React.FC<TSDViewProps> = ({
       </section>
 
       {/* Completion Footer */}
-      <div style={{ padding: '1.5rem', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="lesson-completion-footer">
         <div>
           <h4 style={{ fontSize: '1rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>
             Finished reviewing Speed, Time & Distance?

@@ -70,14 +70,14 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
 
       {/* Lesson Navigation & View Controls Bar */}
       <div className="lesson-controls-bar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <div className="lesson-controls-group">
           <button
             type="button"
             className="lesson-control-btn"
             onClick={() => setExpandAll(prev => !prev)}
           >
             {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse All Solutions' : 'Expand All Solutions'}</span>
+            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
           </button>
 
           <a href="#fraction-table" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
@@ -89,21 +89,14 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
           </a>
         </div>
 
-        <div style={{ position: 'relative', width: '220px' }}>
-          <Search size={14} style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-stack-gray)' }} />
+        <div className="lesson-search-box">
+          <Search size={14} className="lesson-search-icon" />
           <input
             type="text"
+            className="lesson-search-input"
             placeholder="Search within Percentages..."
             value={topicSearch}
             onChange={e => setTopicSearch(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.35rem 0.5rem 0.35rem 1.8rem',
-              fontSize: '0.82rem',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--bg-card)'
-            }}
           />
         </div>
       </div>
@@ -133,7 +126,7 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
           </div>
 
           {/* Formulas */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+          <div className="formulas-grid">
             {sec.formulas.map(f => (
               <div key={f.id} className="formula-item-card">
                 <div className="formula-card-title">
@@ -219,7 +212,7 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+        <div className="mental-tricks-grid">
           {percentagesData.mentalTricks.map((trick, idx) => (
             <div key={idx} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '1.15rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem' }}>
@@ -275,7 +268,7 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
       </section>
 
       {/* Completion Footer */}
-      <div style={{ padding: '1.5rem', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="lesson-completion-footer">
         <div>
           <h4 style={{ fontSize: '1rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>
             Finished reviewing Percentages?
