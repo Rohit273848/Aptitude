@@ -190,25 +190,7 @@ export const RatioView: React.FC<RatioViewProps> = ({
           </a>
         </div>
 
-        {/* In-Lesson Search */}
-        <div className="lesson-search-box">
-          <Search size={15} color="var(--color-stack-gray)" />
-          <input
-            type="text"
-            placeholder="Search concepts, proportions, mixtures..."
-            value={topicSearch}
-            onChange={e => setTopicSearch(e.target.value)}
-          />
-          {topicSearch && (
-            <button
-              type="button"
-              onClick={() => setTopicSearch('')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.8rem', color: 'var(--text-muted)' }}
-            >
-              ✕
-            </button>
-          )}
-        </div>
+        
       </div>
 
       {/* Interactive Tool: Ratio Combiner & Amount Scaler */}

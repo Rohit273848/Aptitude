@@ -185,25 +185,7 @@ export const TimeWorkView: React.FC<TimeWorkViewProps> = ({
           </a>
         </div>
 
-        {/* In-Lesson Search */}
-        <div className="lesson-search-box">
-          <Search size={15} color="var(--color-stack-gray)" />
-          <input
-            type="text"
-            placeholder="Search concepts or examples in this lesson..."
-            value={topicSearch}
-            onChange={e => setTopicSearch(e.target.value)}
-          />
-          {topicSearch && (
-            <button
-              type="button"
-              onClick={() => setTopicSearch('')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.8rem', color: 'var(--text-muted)' }}
-            >
-              ✕
-            </button>
-          )}
-        </div>
+
       </div>
 
       {/* Interactive Tool: Work & Efficiency Calculator */}
