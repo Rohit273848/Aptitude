@@ -35,7 +35,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className="dashboard-hero">
         <div className="dashboard-hero-tags">
           <span className="subject-section-tag">TCS National Qualifier Test (NQT)</span>
-          <span className="subject-difficulty-tag">Placement Syllabus 2026</span>
+          <span className="subject-difficulty-tag">Placement Syllabus 2027</span>
         </div>
 
         <h2>TCS NQT Aptitude Learning Platform</h2>
