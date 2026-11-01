@@ -11,7 +11,8 @@ import {
   Copy,
   CheckCircle,
   HelpCircle,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles
 } from 'lucide-react';
 
 interface TSDViewProps {
@@ -281,12 +282,39 @@ export const TSDView: React.FC<TSDViewProps> = ({
             </h3>
           </div>
 
-          {/* Concepts list */}
-          <ul style={{ marginLeft: '1.5rem', marginBottom: '1rem', color: 'var(--text-muted)' }}>
-            {mod.concepts.map((c, idx) => (
-              <li key={idx} style={{ marginBottom: '0.35rem' }}>{c}</li>
-            ))}
-          </ul>
+          {/* Core Concepts - High Readability Rule Cards */}
+          <div className="concept-rules-container">
+            <div className="module-section-label">
+              <Sparkles size={14} className="module-section-icon" />
+              <span>Key Theoretical Rules & Principles</span>
+            </div>
+            <div className="concept-rules-list">
+              {mod.concepts.map((concept, cIdx) => {
+                const colonIdx = concept.indexOf(':');
+                const hasColon = colonIdx > 0 && colonIdx < 50;
+                const ruleTitle = hasColon ? concept.slice(0, colonIdx).trim() : null;
+                const ruleDesc = hasColon ? concept.slice(colonIdx + 1).trim() : concept;
+
+                return (
+                  <div key={cIdx} className="concept-rule-card">
+                    <div className="concept-rule-bullet">
+                      <span className="concept-bullet-dot" />
+                    </div>
+                    <div className="concept-rule-content">
+                      {ruleTitle ? (
+                        <>
+                          <span className="concept-rule-badge">{ruleTitle}</span>
+                          <span className="concept-rule-text">{ruleDesc}</span>
+                        </>
+                      ) : (
+                        <span className="concept-rule-text">{concept}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Formulas */}
           {mod.formulas && mod.formulas.length > 0 && (
@@ -400,11 +428,22 @@ export const TSDView: React.FC<TSDViewProps> = ({
                   <span className="topic-status-pill needed">{f.category}</span>
                   <button
                     type="button"
-                    className="copy-formula-icon-btn"
+                    className={`copy-formula-pill-btn ${copyFeedback === f.id ? 'copied' : ''}`}
                     onClick={() => copyFormula(f.math, f.id)}
-                    title="Copy LaTeX"
+                    title="Copy formula LaTeX"
+                    aria-label="Copy formula LaTeX"
                   >
-                    {copyFeedback === f.id ? '✓ Copied' : '📋 Copy'}
+                    {copyFeedback === f.id ? (
+                      <>
+                        <Check size={12} strokeWidth={2.4} />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={12} strokeWidth={2} />
+                        <span>Copy LaTeX</span>
+                      </>
+                    )}
                   </button>
                 </div>
                 <h4 style={{ fontSize: '0.92rem', color: 'var(--primary-action)' }}>{f.concept}</h4>

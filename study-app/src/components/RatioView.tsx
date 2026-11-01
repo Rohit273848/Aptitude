@@ -10,9 +10,17 @@ import {
   RotateCw,
   Copy,
   CheckCircle,
+  CheckCircle2,
   HelpCircle,
   Sliders,
-  Scale
+  Scale,
+  Sparkles,
+  BookOpen,
+  Lightbulb,
+  AlertTriangle,
+  XCircle,
+  Info,
+  Calculator
 } from 'lucide-react';
 
 interface RatioViewProps {
@@ -288,28 +296,30 @@ export const RatioView: React.FC<RatioViewProps> = ({
           </div>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-subtle)' }}>Exam question presets:</span>
-          {[
-            { label: 'A:B=2:3, B:C=4:5 (Ex 1)', a: '2', b1: '3', b2: '4', c: '5', tot: '98' },
-            { label: 'A:B=2:3, B:C=5:8 (TCS PYQ)', a: '2', b1: '3', b2: '5', c: '8', tot: '98' },
-            { label: 'A:B=3:4, B:C=8:9', a: '3', b1: '4', b2: '8', c: '9', tot: '100' }
-          ].map(preset => (
-            <button
-              key={preset.label}
-              type="button"
-              className="speed-chip-btn"
-              onClick={() => {
-                setATerm(preset.a);
-                setB1Term(preset.b1);
-                setB2Term(preset.b2);
-                setCTerm(preset.c);
-                setTotalSplitAmount(preset.tot);
-              }}
-            >
-              {preset.label}
-            </button>
-          ))}
+        <div className="presets-bar">
+          <span className="presets-label">Exam question presets:</span>
+          <div className="presets-pills-row">
+            {[
+              { label: 'A:B=2:3, B:C=4:5 (Ex 1)', a: '2', b1: '3', b2: '4', c: '5', tot: '98' },
+              { label: 'A:B=2:3, B:C=5:8 (TCS PYQ)', a: '2', b1: '3', b2: '5', c: '8', tot: '98' },
+              { label: 'A:B=3:4, B:C=8:9', a: '3', b1: '4', b2: '8', c: '9', tot: '100' }
+            ].map(preset => (
+              <button
+                key={preset.label}
+                type="button"
+                className="speed-chip-btn"
+                onClick={() => {
+                  setATerm(preset.a);
+                  setB1Term(preset.b1);
+                  setB2Term(preset.b2);
+                  setCTerm(preset.c);
+                  setTotalSplitAmount(preset.tot);
+                }}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -318,48 +328,83 @@ export const RatioView: React.FC<RatioViewProps> = ({
         {filteredModules.map(mod => (
           <div key={mod.id} className="lesson-module-card">
             <div className="module-card-header">
-              <span className="module-badge">Module {mod.number}</span>
-              <h3 style={{ fontSize: '1.35rem', color: 'var(--text-main)', margin: 0 }}>
+              <div className="module-card-top-row">
+                <span className="module-badge">Module {mod.number}</span>
+                <span className="topic-status-pill ready">Core Curriculum</span>
+              </div>
+              <h3 className="module-card-title">
                 {mod.title}
               </h3>
             </div>
 
-            {/* Core Concepts */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem' }}>
-                Key Theoretical Rules
-              </h4>
-              <ul style={{ paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                {mod.concepts.map((concept, cIdx) => (
-                  <li key={cIdx} style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>
-                    {concept}
-                  </li>
-                ))}
-              </ul>
+            {/* Core Concepts - High Readability Rule Cards */}
+            <div className="concept-rules-container">
+              <div className="module-section-label">
+                <Sparkles size={14} className="module-section-icon" />
+                <span>Key Theoretical Rules & Principles</span>
+              </div>
+              <div className="concept-rules-list">
+                {mod.concepts.map((concept, cIdx) => {
+                  const colonIdx = concept.indexOf(':');
+                  const hasColon = colonIdx > 0 && colonIdx < 50;
+                  const ruleTitle = hasColon ? concept.slice(0, colonIdx).trim() : null;
+                  const ruleDesc = hasColon ? concept.slice(colonIdx + 1).trim() : concept;
+
+                  return (
+                    <div key={cIdx} className="concept-rule-card">
+                      <div className="concept-rule-bullet">
+                        <span className="concept-bullet-dot" />
+                      </div>
+                      <div className="concept-rule-content">
+                        {ruleTitle ? (
+                          <>
+                            <span className="concept-rule-badge">{ruleTitle}</span>
+                            <span className="concept-rule-text">{ruleDesc}</span>
+                          </>
+                        ) : (
+                          <span className="concept-rule-text">{concept}</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Callout Box if present */}
             {mod.callout && (
-              <div className={`module-callout-box ${mod.callout.type}`}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.3rem' }}>
-                  <HelpCircle size={16} />
-                  <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>{mod.callout.title}</span>
+              <div className={`module-callout-card ${mod.callout.type}`}>
+                <div className="callout-card-header">
+                  <div className="callout-icon-badge">
+                    {mod.callout.type === 'tip' && <Sparkles size={15} />}
+                    {mod.callout.type === 'warning' && <AlertTriangle size={15} />}
+                    {mod.callout.type === 'trap' && <XCircle size={15} />}
+                    {mod.callout.type === 'info' && <Info size={15} />}
+                  </div>
+                  <span className="callout-card-title">{mod.callout.title}</span>
+                  <span className="callout-pill-tag">
+                    {mod.callout.type === 'tip' ? 'Exam Shortcut' : mod.callout.type === 'trap' ? 'Common Trap' : 'Key Note'}
+                  </span>
                 </div>
-                <p style={{ fontSize: '0.9rem', margin: 0 }}>{mod.callout.content}</p>
+                <p className="callout-card-text">{mod.callout.content}</p>
               </div>
             )}
 
             {/* Formulas Box */}
             {mod.formulas && mod.formulas.length > 0 && (
-              <div style={{ backgroundColor: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)', marginBottom: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.85rem', color: 'var(--primary-action)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                  Mathematical Relationships
-                </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div className="module-formulas-panel">
+                <div className="module-section-label">
+                  <Scale size={14} className="module-section-icon" />
+                  <span>Mathematical Relationships</span>
+                </div>
+                <div className="module-formulas-grid">
                   {mod.formulas.map((f, fIdx) => (
-                    <div key={fIdx} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>{f.name}:</span>
-                      <KaTeXMath math={f.math} block />
+                    <div key={fIdx} className="module-formula-card">
+                      <div className="module-formula-name">{f.name}</div>
+                      <div className="module-formula-math">
+                        <KaTeXMath math={f.math} block />
+                      </div>
+                      {f.note && <div className="module-formula-note">{f.note}</div>}
                     </div>
                   ))}
                 </div>
@@ -368,10 +413,11 @@ export const RatioView: React.FC<RatioViewProps> = ({
 
             {/* Worked Examples */}
             <div>
-              <h4 style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>
-                Worked Exam Scenarios ({mod.examples.length})
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div className="module-section-label" style={{ marginTop: '0.5rem' }}>
+                <BookOpen size={14} className="module-section-icon" />
+                <span>Worked Exam Scenarios ({mod.examples.length})</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {mod.examples.map(ex => (
                   <CollapsibleExample
                     key={ex.id}
@@ -420,12 +466,13 @@ export const RatioView: React.FC<RatioViewProps> = ({
                 <span className="formula-tag">{item.category}</span>
                 <button
                   type="button"
-                  className="formula-copy-btn"
+                  className={`copy-formula-pill-btn ${copyFeedback === item.id ? 'copied' : ''}`}
                   onClick={() => copyFormula(item.math, item.id)}
                   title="Copy formula LaTeX"
+                  aria-label="Copy formula LaTeX"
                 >
-                  {copyFeedback === item.id ? <Check size={14} color="var(--primary-action)" /> : <Copy size={14} />}
-                  <span>{copyFeedback === item.id ? 'Copied!' : 'Copy'}</span>
+                  {copyFeedback === item.id ? <Check size={12} strokeWidth={2.4} /> : <Copy size={12} strokeWidth={2} />}
+                  <span>{copyFeedback === item.id ? 'Copied!' : 'Copy LaTeX'}</span>
                 </button>
               </div>
               <h4 style={{ fontSize: '0.92rem', color: 'var(--text-main)', marginBottom: '0.6rem' }}>

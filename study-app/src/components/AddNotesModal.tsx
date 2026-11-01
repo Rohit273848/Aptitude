@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, FileCode, BookOpen } from 'lucide-react';
+import { X, Copy, Check, FileCode, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface AddNotesModalProps {
   isOpen: boolean;
@@ -8,30 +8,37 @@ interface AddNotesModalProps {
 
 export const AddNotesModal: React.FC<AddNotesModalProps> = ({ isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'steps' | 'template'>('steps');
 
   if (!isOpen) return null;
 
-  const sampleTemplate = `# [Topic Name] Formula Cheat Sheet
+  const sampleTemplate = `# [Topic Name]
 
-For TCS NQT and campus aptitude exams, these formulas and shortcuts cover common problem types.
+> **Aptitude revision notes** for placement preparation, including TCS NQT, Cognizant, Infosys, Wipro, Accenture, and other campus aptitude rounds. Formulas and step-by-step models are written in GitHub-compatible Markdown/LaTeX.
 
-## Notation
-Define standard variables here (e.g. $P$, $S$, $D$, $T$).
+## 1. Key Concepts and Definitions
+- Core definitions, rules, and theorems.
 
-## 1. Core Formulas
+## 2. Core Formulas
 $$
-\\boxed{\\text{Formula} = \\text{Value}}
-$$
-
-## 2. Worked Examples
-### Example 1
-**Question:** Problem statement goes here.
-
-$$
-\\text{Step 1: } \\dots
+\\Large
+\\boxed{\\text{Result} = \\text{Formula}}
 $$
 
-**Final Answer:** \\boxed{42}
+## 3. Worked Examples
+
+### Example 1: Standard Question
+**Problem Statement:**
+Question statement goes here.
+
+**Step 1: Formula Setup**
+$$
+\\Large
+\\text{Step equation}
+$$
+
+**Final Answer:**
+The answer is $\\Large \\boxed{\\mathbf{Result}}$.
 `;
 
   const copyTemplate = () => {
@@ -43,121 +50,140 @@ $$
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundColor: 'rgba(1, 1, 1, 0.65)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 100,
-        padding: '1.25rem'
-      }}
+      className="modal-overlay"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       <div
-        style={{
-          backgroundColor: 'var(--bg-card)',
-          borderRadius: 'var(--radius-lg)',
-          maxWidth: '680px',
-          width: '100%',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          border: '1px solid var(--border-subtle)',
-          boxShadow: 'var(--shadow-elevated)',
-          padding: '2rem'
-        }}
+        className="modal-container"
         onClick={e => e.stopPropagation()}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{ background: 'var(--bg-surface)', padding: '0.4rem', borderRadius: 'var(--radius-sm)' }}>
-              <FileCode size={22} color="var(--primary-action)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <div style={{ background: 'var(--primary-action-light)', padding: '0.5rem', borderRadius: 'var(--radius-sm)', color: 'var(--primary-action)' }}>
+              <FileCode size={22} />
             </div>
-            <h3 style={{ fontSize: '1.3rem', color: 'var(--text-main)' }}>
-              How to Add Future Topic Notes
-            </h3>
+            <div>
+              <h3 id="modal-title" style={{ fontSize: '1.3rem', color: 'var(--text-main)', fontWeight: 700 }}>
+                How to Add Study Notes
+              </h3>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                Modular architecture for ingesting future syllabus topics
+              </p>
+            </div>
           </div>
+
           <button
             type="button"
             onClick={onClose}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-stack-gray)' }}
+            className="sidebar-collapse-toggle-btn"
             aria-label="Close modal"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        <p style={{ fontSize: '0.92rem', marginBottom: '1.25rem' }}>
-          This application uses a modular, predictable metadata architecture designed to grow with your study needs. You can add new notes anytime without rebuilding navigation components.
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-            <h4 style={{ fontSize: '0.95rem', color: 'var(--primary-action)', marginBottom: '0.25rem' }}>
-              📁 Step 1: Save Markdown in <code>Aptitude/Numarical/</code> or <code>Aptitude/Reasoning/</code>
-            </h4>
-            <p style={{ fontSize: '0.85rem' }}>
-              Create standard Markdown files with KaTeX math enclosed in <code>$$ ... $$</code> for display formulas and <code>$ ... $</code> for inline variables.
-            </p>
-          </div>
-
-          <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-            <h4 style={{ fontSize: '0.95rem', color: 'var(--primary-action)', marginBottom: '0.25rem' }}>
-              🔗 Step 2: Update <code>src/data/syllabusData.ts</code>
-            </h4>
-            <p style={{ fontSize: '0.85rem' }}>
-              Find the corresponding topic in <code>syllabusData</code>. Change its <code>status</code> from <code>"needed"</code> to <code>"ready"</code> and link the <code>noteFile</code> path.
-            </p>
-          </div>
-
-          <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-            <h4 style={{ fontSize: '0.95rem', color: 'var(--primary-action)', marginBottom: '0.25rem' }}>
-              ⚡ Step 3: Instant Interactive Study Page
-            </h4>
-            <p style={{ fontSize: '0.85rem' }}>
-              The topic immediately switches to "Ready to study" in the navigation and presents collapsible worked examples, formula reference cards, and practice questions.
-            </p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)' }}>
-            Sample Markdown Template
-          </span>
+        {/* Tab Switcher */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.5rem' }}>
           <button
             type="button"
-            className="lesson-control-btn"
-            onClick={copyTemplate}
-            style={{ fontSize: '0.78rem' }}
+            className={`lesson-control-btn ${activeTab === 'steps' ? 'active' : ''}`}
+            onClick={() => setActiveTab('steps')}
           >
-            {copied ? <Check size={14} color="var(--primary-action)" /> : <Copy size={14} />}
-            <span>{copied ? 'Copied to Clipboard' : 'Copy Template'}</span>
+            <span>📋 Step-by-Step Blueprint</span>
+          </button>
+          <button
+            type="button"
+            className={`lesson-control-btn ${activeTab === 'template' ? 'active' : ''}`}
+            onClick={() => setActiveTab('template')}
+          >
+            <span>📝 Markdown Template</span>
           </button>
         </div>
 
-        <pre
-          style={{
-            backgroundColor: 'var(--color-black)',
-            color: 'var(--color-white)',
-            padding: '1rem',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: '0.82rem',
-            fontFamily: 'var(--font-mono)',
-            overflowX: 'auto',
-            maxHeight: '180px'
-          }}
-        >
-          {sampleTemplate}
-        </pre>
+        {activeTab === 'steps' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ background: 'var(--bg-secondary)', padding: '1.15rem', borderRadius: 'var(--radius-md)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary-action)', color: '#fff', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>1</span>
+                <strong style={{ fontSize: '0.92rem', color: 'var(--text-main)' }}>Create Markdown File</strong>
+              </div>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginLeft: '1.9rem' }}>
+                Save your notes in <code>Aptitude/Numarical/[TopicName].md</code> following standard GitHub-compatible markdown and LaTeX math syntax.
+              </p>
+            </div>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
+            <div style={{ background: 'var(--bg-secondary)', padding: '1.15rem', borderRadius: 'var(--radius-md)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary-action)', color: '#fff', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</span>
+                <strong style={{ fontSize: '0.92rem', color: 'var(--text-main)' }}>Create TypeScript Data Model</strong>
+              </div>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginLeft: '1.9rem' }}>
+                Create <code>study-app/src/data/[topic]Content.ts</code> with formula sheets, modules, and quiz questions.
+              </p>
+            </div>
+
+            <div style={{ background: 'var(--bg-secondary)', padding: '1.15rem', borderRadius: 'var(--radius-md)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary-action)', color: '#fff', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>3</span>
+                <strong style={{ fontSize: '0.92rem', color: 'var(--text-main)' }}>Connect View & Syllabus Registry</strong>
+              </div>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginLeft: '1.9rem' }}>
+                Update status to <code>'ready'</code> in <code>syllabusData.ts</code>, create view in <code>src/components/</code>, and connect route in <code>App.tsx</code>.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Template ready to copy</span>
+              <button
+                type="button"
+                className={`copy-formula-pill-btn ${copied ? 'copied' : ''}`}
+                onClick={copyTemplate}
+                title="Copy markdown template"
+                aria-label="Copy markdown template"
+              >
+                {copied ? (
+                  <>
+                    <Check size={13} strokeWidth={2.4} />
+                    <span>Copied to Clipboard!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={13} strokeWidth={2} />
+                    <span>Copy Template</span>
+                  </>
+                )}
+              </button>
+            </div>
+            <pre
+              style={{
+                background: 'var(--bg-muted)',
+                padding: '1.15rem',
+                borderRadius: 'var(--radius-md)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.82rem',
+                color: 'var(--text-body)',
+                overflowX: 'auto',
+                maxHeight: '320px',
+                border: '1px solid var(--border-subtle)'
+              }}
+            >
+              {sampleTemplate}
+            </pre>
+          </div>
+        )}
+
+        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
           <button
             type="button"
             className="add-notes-btn"
             onClick={onClose}
           >
-            Got It
+            Got it, thanks!
           </button>
         </div>
       </div>

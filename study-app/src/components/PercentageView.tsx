@@ -17,6 +17,14 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
   const [topicSearch, setTopicSearch] = useState('');
   const [selectedCalcVal, setSelectedCalcVal] = useState('20');
   const [selectedCalcBase, setSelectedCalcBase] = useState('750');
+  const [copyFeedback, setCopyFeedback] = useState<string | null>(null);
+
+  const copyFormula = (formulaText: string, id: string) => {
+    navigator.clipboard.writeText(formulaText).then(() => {
+      setCopyFeedback(id);
+      setTimeout(() => setCopyFeedback(null), 2000);
+    });
+  };
 
   // Interactive mental calculation trick calculator
   const mentalResult = useMemo(() => {
@@ -131,6 +139,25 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
               <div key={f.id} className="formula-item-card">
                 <div className="formula-card-title">
                   <span>{f.name}</span>
+                  <button
+                    type="button"
+                    className={`copy-formula-pill-btn ${copyFeedback === f.id ? 'copied' : ''}`}
+                    onClick={() => copyFormula(f.formula, f.id)}
+                    title="Copy formula LaTeX"
+                    aria-label="Copy formula LaTeX"
+                  >
+                    {copyFeedback === f.id ? (
+                      <>
+                        <Check size={12} strokeWidth={2.4} />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={12} strokeWidth={2} />
+                        <span>Copy LaTeX</span>
+                      </>
+                    )}
+                  </button>
                 </div>
                 <KaTeXMath math={f.formula} block />
                 <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>

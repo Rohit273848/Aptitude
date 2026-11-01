@@ -1,17 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 import {
   Search,
-  PlusCircle,
   Menu,
-  BookOpen,
   GraduationCap,
   CheckCircle2,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface HeaderProps {
   onGoHome: () => void;
-  onOpenAddNotes: () => void;
   completedCount: number;
   totalAvailable: number;
   searchQuery: string;
@@ -20,17 +19,20 @@ interface HeaderProps {
   isMobileSidebarOpen?: boolean;
   onToggleCollapse?: () => void;
   isSidebarCollapsed?: boolean;
+  theme?: 'light' | 'dark';
+  onToggleTheme?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onGoHome,
-  onOpenAddNotes,
   completedCount,
   totalAvailable,
   searchQuery,
   onSearchChange,
   onToggleMobileSidebar,
-  isMobileSidebarOpen
+  isMobileSidebarOpen,
+  theme = 'light',
+  onToggleTheme
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -78,11 +80,11 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             className="brand-button"
             onClick={onGoHome}
-            aria-label="Return to TCS NQT Syllabus Dashboard"
+            aria-label="Return to TCS NQT Dashboard"
             title="TCS NQT Prep Hub Dashboard"
           >
             <div className="brand-logo-emblem" aria-hidden="true">
-              <GraduationCap size={18} strokeWidth={2.2} />
+              <GraduationCap size={20} strokeWidth={2.3} />
             </div>
             <div className="brand-text-group">
               <div className="brand-title-row">
@@ -104,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({
           <label htmlFor="header-global-search" className="visually-hidden">
             Search syllabus topics, formulas, and shortcuts
           </label>
-          <Search size={14} className="search-icon-left" aria-hidden="true" />
+          <Search size={15} className="search-icon-left" aria-hidden="true" />
           <input
             ref={searchInputRef}
             id="header-global-search"
@@ -122,45 +124,24 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onSearchChange('')}
               aria-label="Clear search query"
             >
-              <X size={13} />
+              <X size={14} />
             </button>
           ) : (
-            <span className="search-kbd-hint desktop-only" title="Press / or Ctrl+K to search">
-              <kbd>/</kbd>
+            <span className="search-kbd-hint desktop-only" title="Press Ctrl+K or / to search">
+              <kbd>Ctrl+K</kbd>
             </span>
           )}
         </div>
 
-        {/* Right: Modern Actions & Progress Widget */}
+        {/* Right Section: Progress Indicator & Theme Toggle */}
         <div className="header-nav-actions">
-          <button
-            type="button"
-            className="header-nav-pill desktop-only"
-            onClick={onGoHome}
-            title="View complete syllabus overview"
-          >
-            <BookOpen size={13} className="nav-pill-icon" />
-            <span className="nav-pill-label">Syllabus</span>
-          </button>
-
-          <button
-            type="button"
-            className="header-cta-btn"
-            onClick={onOpenAddNotes}
-            title="Guide to contributing and adding notes"
-          >
-            <PlusCircle size={13} />
-            <span className="btn-text-full">Add Notes</span>
-            <span className="btn-text-short">Notes</span>
-          </button>
-
           {/* Sleek Progress Indicator Card */}
           <div
-            className="header-progress-widget"
-            title={`${completedCount} of ${totalAvailable} available topics completed (${progressPercent}%)`}
+            className="header-progress-widget desktop-only"
+            title={`${completedCount} of ${totalAvailable} ready topics completed (${progressPercent}%)`}
           >
             <div className="progress-widget-icon" aria-hidden="true">
-              <CheckCircle2 size={15} color="#4ade80" />
+              <CheckCircle2 size={15} color="var(--primary-action)" />
             </div>
             <div className="progress-widget-info">
               <div className="progress-widget-stats">
@@ -175,12 +156,29 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Theme Toggle (Sun/Moon) */}
+          {onToggleTheme && (
+            <button
+              type="button"
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun size={17} color="#FB923C" />
+              ) : (
+                <Moon size={17} color="#727B83" />
+              )}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile Search Row (Full width underneath on mobile screens) */}
-      <div className="header-mobile-search-bar mobile-only">
-        <div className="header-search-box mobile-search-box">
+      <div className="header-mobile-search-bar mobile-only" style={{ padding: '0.5rem 1rem 0.75rem' }}>
+        <div className="header-search-box mobile-search-box" style={{ width: '100%', maxWidth: 'none' }}>
           <Search size={14} className="search-icon-left" aria-hidden="true" />
           <input
             type="search"

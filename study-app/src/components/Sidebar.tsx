@@ -4,7 +4,6 @@ import {
   GraduationCap,
   ChevronDown,
   ChevronRight,
-  ChevronLeft,
   Search,
   X,
   Calculator,
@@ -15,14 +14,8 @@ import {
   Code,
   CheckCircle2,
   Circle,
-  FileCheck,
-  FileText,
-  Clock,
   Layers,
-  Plus,
-  PlusCircle,
   AlertCircle,
-  User,
   PanelLeftClose,
   PanelLeftOpen
 } from 'lucide-react';
@@ -42,7 +35,7 @@ interface SidebarProps {
 }
 
 // Icon helper per subject ID
-const getSubjectIcon = (subjectId: string, size = 18) => {
+const getSubjectIcon = (subjectId: string, size = 17) => {
   switch (subjectId) {
     case 'foundation-numerical-ability':
       return <Calculator size={size} aria-hidden="true" />;
@@ -71,29 +64,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isCollapsed,
   onToggleCollapse,
   isMobileOpen,
-  onCloseMobile,
-  onOpenAddNotesGuide
+  onCloseMobile
 }) => {
   const [searchFilter, setSearchFilter] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Responsive desktop detection for collapsed rail vs mobile drawer
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth > 960;
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth > 960);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Expanded subject groups state
+  // Expanded subject groups state (Foundation Numerical Ability open by default)
   const [expandedSubjects, setExpandedSubjects] = useState<{ [key: string]: boolean }>({
     'foundation-numerical-ability': true,
     'foundation-reasoning-ability': false,
@@ -102,25 +78,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     'advance-reasoning-ability': false,
     'advance-coding-ability': false
   });
-
-  // Section level expansion (Foundation vs Advance)
-  const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
-    Foundation: true,
-    Advance: true
-  });
-
-  // Dynamically compute list of all ready topics across syllabus
-  const readyTopicIds = useMemo(() => {
-    const ids: string[] = [];
-    syllabus.forEach(sub => {
-      sub.groups.forEach(grp => {
-        grp.topics.forEach(t => {
-          if (t.status === 'ready') ids.push(t.id);
-        });
-      });
-    });
-    return ids;
-  }, [syllabus]);
 
   // When a topic is selected, automatically expand its parent subject
   useEffect(() => {
@@ -158,13 +115,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setExpandedSubjects(prev => ({
       ...prev,
       [subjectId]: !prev[subjectId]
-    }));
-  };
-
-  const toggleSection = (sectionName: 'Foundation' | 'Advance') => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [sectionName]: !prev[sectionName]
     }));
   };
 
@@ -233,13 +183,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setExpandedSubjects(prev => ({ ...prev, [subjectId]: true }));
   };
 
-  const handleRailSearchClick = () => {
-    onToggleCollapse();
-    setTimeout(() => {
-      searchInputRef.current?.focus();
-    }, 150);
-  };
-
   // Render a topic item
   const renderTopicItem = (topic: Topic) => {
     const isSelected = selectedTopicId === topic.id;
@@ -262,147 +205,99 @@ export const Sidebar: React.FC<SidebarProps> = ({
             }
           }}
         >
-          {/* Checkbox for completion */}
-          <button
-            type="button"
-            className="sidebar-topic-check-btn"
-            onClick={e => onToggleCompleteTopic(topic.id, e)}
-            title={isDone ? 'Mark as incomplete' : 'Mark as completed'}
-            aria-label={`Mark ${topic.title} as ${isDone ? 'incomplete' : 'completed'}`}
-          >
-            {isDone ? (
-              <CheckCircle2
-                size={15}
-                strokeWidth={2.2}
-                className="sidebar-check-icon done"
-                color="#16a34a"
-              />
-            ) : (
-              <Circle
-                size={15}
-                strokeWidth={1.8}
-                className="sidebar-check-icon not-done"
-                color="#94a3b8"
-              />
-            )}
-          </button>
-
-          {/* Topic title */}
           <span className="sidebar-topic-name" title={topic.title}>
             {topic.title}
           </span>
 
-          {/* Non-color-alone status indicator */}
-          <div className="sidebar-status-container">
-            {topic.tag ? (
-              <span className="sidebar-status-pill tag-not-recent" title={topic.tag}>
-                <Clock size={11} aria-hidden="true" />
-                <span>Not in 2 yrs</span>
-              </span>
-            ) : isReady ? (
-              <span className="sidebar-status-pill status-ready" title="Ready to study complete notes">
-                <FileText size={11} strokeWidth={2.2} aria-hidden="true" />
-                <span>Ready</span>
+          <div className="sidebar-topic-meta">
+            {isReady ? (
+              <span className="topic-status-pill ready" title="Verified notes available">
+                Ready
               </span>
             ) : (
-              <span className="sidebar-status-pill status-needed" title="Awaiting notes contribution">
-                <FileText size={11} strokeWidth={2} aria-hidden="true" />
-                <span>Notes needed</span>
+              <span className="topic-status-pill needed" title="Notes needed">
+                Needed
               </span>
             )}
+
+            <button
+              type="button"
+              className={`sidebar-complete-btn ${isDone ? 'checked' : ''}`}
+              onClick={e => onToggleCompleteTopic(topic.id, e)}
+              title={isDone ? 'Mark as incomplete' : 'Mark as completed'}
+              aria-label={isDone ? `Mark ${topic.title} as incomplete` : `Mark ${topic.title} as completed`}
+            >
+              {isDone ? (
+                <CheckCircle2 size={15} color="var(--primary-action)" />
+              ) : (
+                <Circle size={15} color="var(--border-control)" />
+              )}
+            </button>
           </div>
         </div>
       </li>
     );
   };
 
-  // Render a subject area with nested groups/topics
+  // Render a topic group
+  const renderGroup = (group: TopicGroup) => {
+    return (
+      <div key={group.id} className="sidebar-group-wrap" style={{ marginBottom: '0.4rem' }}>
+        {group.title !== 'General Overview' && (
+          <div className="sidebar-group-title">
+            {group.title}
+          </div>
+        )}
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {group.topics.map(topic => renderTopicItem(topic))}
+        </ul>
+      </div>
+    );
+  };
+
+  // Render a subject accordion item
   const renderSubject = (subject: SubjectArea) => {
-    // If searching, force expanded to show matching topics
-    const isExpanded = isSearching ? true : !!expandedSubjects[subject.id];
-    const totalTopics = subject.groups.reduce((acc, g) => acc + g.topics.length, 0);
-    const readyTopics = subject.groups.reduce(
+    const isExpanded = expandedSubjects[subject.id] || isSearching;
+    const readyCount = subject.groups.reduce(
       (acc, g) => acc + g.topics.filter(t => t.status === 'ready').length,
       0
     );
 
-    const hasSelectedChild = subject.groups.some(g =>
-      g.topics.some(t => t.id === selectedTopicId)
-    );
-
     return (
-      <div key={subject.id} className={`sidebar-subject-block ${hasSelectedChild ? 'has-active-child' : ''}`}>
+      <div key={subject.id} className="sidebar-subject-group">
         <button
           type="button"
-          className={`sidebar-subject-btn ${isExpanded ? 'expanded' : ''} ${hasSelectedChild ? 'active-parent' : ''}`}
+          className={`sidebar-subject-btn ${isExpanded ? 'expanded' : ''}`}
           onClick={() => toggleSubject(subject.id)}
           aria-expanded={isExpanded}
-          aria-controls={`subject-content-${subject.id}`}
         >
-          <div className="sidebar-subject-left">
-            <span className="sidebar-subject-icon">
-              {getSubjectIcon(subject.id, 16)}
-            </span>
+          <div className="sidebar-subject-icon-wrap">
+            {getSubjectIcon(subject.id, 16)}
             <span className="sidebar-subject-title">{subject.title}</span>
           </div>
 
-          <div className="sidebar-subject-right">
-            {readyTopics > 0 && (
-              <span className="sidebar-ready-count-badge" title={`${readyTopics} topics ready to study`}>
-                {readyTopics} ready
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+            {readyCount > 0 && (
+              <span className="sidebar-subject-ready-badge" title={`${readyCount} ready topics`}>
+                {readyCount} Ready
               </span>
             )}
-            <span className="sidebar-chevron-wrap">
-              {isExpanded ? (
-                <ChevronDown size={15} strokeWidth={2.2} aria-hidden="true" />
-              ) : (
-                <ChevronRight size={15} strokeWidth={2.2} aria-hidden="true" />
-              )}
-            </span>
+            {isExpanded ? (
+              <ChevronDown size={14} color="var(--text-muted)" />
+            ) : (
+              <ChevronRight size={14} color="var(--text-muted)" />
+            )}
           </div>
         </button>
 
         {isExpanded && (
-          <div id={`subject-content-${subject.id}`} className="sidebar-subject-nested-content">
+          <div className="sidebar-subject-content">
             {subject.groups.length === 0 ? (
-              <div className="sidebar-subject-empty-box">
-                <p className="sidebar-subject-empty-text">
-                  No topic notes have been added for {subject.title} yet.
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.4rem' }}>
-                  <span className="sidebar-status-pill status-needed">
-                    <FileText size={12} aria-hidden="true" />
-                    <span>Notes needed</span>
-                  </span>
-                  {onOpenAddNotesGuide && (
-                    <button
-                      type="button"
-                      className="sidebar-quick-add-btn"
-                      onClick={onOpenAddNotesGuide}
-                    >
-                      <PlusCircle size={12} />
-                      <span>Add notes</span>
-                    </button>
-                  )}
-                </div>
+              <div style={{ padding: '0.5rem 0.75rem 0.5rem 1.85rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                <em>No topics listed yet</em>
               </div>
             ) : (
-              subject.groups.map(group => {
-                const showGroupHeader = Boolean(group.title);
-                return (
-                  <div key={group.id} className="sidebar-group-container">
-                    {showGroupHeader && (
-                      <div className="sidebar-group-header">
-                        <span className="sidebar-group-bullet" aria-hidden="true" />
-                        <span className="sidebar-group-title">{group.title}</span>
-                      </div>
-                    )}
-                    <ul className="sidebar-topics-list">
-                      {group.topics.map(topic => renderTopicItem(topic))}
-                    </ul>
-                  </div>
-                );
-              })
+              subject.groups.map(group => renderGroup(group))
             )}
           </div>
         )}
@@ -410,192 +305,89 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  // Render a top-level section (Foundation or Advance)
-  const renderSection = (
-    title: 'Foundation' | 'Advance',
-    subtitle: string,
-    subjects: SubjectArea[]
-  ) => {
-    if (subjects.length === 0 && isSearching) {
-      return null;
-    }
-
-    const isSectionOpen = isSearching ? true : !!expandedSections[title];
-    const totalSectionTopics = subjects.reduce(
-      (sum, s) => sum + s.groups.reduce((gSum, g) => gSum + g.topics.length, 0),
-      0
-    );
-
+  // Render Collapsed Rail Mode (Inspired by Nextstep Icon Rail)
+  if (isCollapsed) {
     return (
-      <div className="sidebar-section-container">
-        <button
-          type="button"
-          className="sidebar-section-header-btn"
-          onClick={() => toggleSection(title)}
-          aria-expanded={isSectionOpen}
-          aria-label={`${title} section. Contains ${subjects.length} subjects.`}
-        >
-          <div className="sidebar-section-header-left">
-            <span className="sidebar-section-title">{title}</span>
-            <span className="sidebar-section-badge">{subtitle}</span>
-          </div>
-
-          <div className="sidebar-section-header-right">
-            <span className="sidebar-section-topic-count">
-              {totalSectionTopics} {totalSectionTopics === 1 ? 'topic' : 'topics'}
-            </span>
-            <span className="sidebar-section-chevron">
-              {isSectionOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-            </span>
-          </div>
-        </button>
-
-        {isSectionOpen && (
-          <div className="sidebar-section-body">
-            {subjects.map(renderSubject)}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // If in desktop collapsed mode, render compact icon rail (desktop only)
-  if (isDesktop && isCollapsed && !isMobileOpen) {
-    return (
-      <aside
-        className="app-sidebar collapsed desktop-only"
-        role="navigation"
-        aria-label="TCS NQT Syllabus Navigation (Collapsed)"
-      >
+      <aside className="app-sidebar collapsed desktop-only" aria-label="Collapsed Syllabus Navigation Rail">
         <div className="sidebar-rail-header">
           <button
             type="button"
             className="sidebar-rail-expand-btn"
             onClick={onToggleCollapse}
-            title="Expand sidebar navigation"
+            title="Expand sidebar (Ctrl+\)"
             aria-label="Expand sidebar navigation"
           >
-            <PanelLeftOpen size={16} strokeWidth={2} />
+            <PanelLeftOpen size={16} />
           </button>
         </div>
 
         <div className="sidebar-rail-scroll">
-          {/* Quick Dashboard link */}
           <button
             type="button"
-            className={`sidebar-rail-icon-btn ${!selectedTopicId ? 'active' : ''}`}
-            onClick={onGoHome}
-            title="Syllabus Dashboard"
-            aria-label="Syllabus Dashboard"
+            className={`sidebar-rail-btn ${!selectedTopicId ? 'active' : ''}`}
+            onClick={handleGoHomeWrapper}
+            title="Syllabus Dashboard Overview"
+            aria-label="Syllabus Dashboard Overview"
           >
-            <Layers size={16} />
+            <Layers size={18} />
           </button>
 
-          {/* Quick Search trigger */}
-          <button
-            type="button"
-            className="sidebar-rail-icon-btn"
-            onClick={handleRailSearchClick}
-            title="Search syllabus topics"
-            aria-label="Search syllabus topics"
-          >
-            <Search size={18} />
-          </button>
+          <div style={{ width: '28px', height: '1px', background: 'var(--border-subtle)', margin: '0.35rem 0' }} />
 
-          <div className="sidebar-rail-divider" aria-hidden="true" />
-
-          {/* Subject icons */}
           {syllabus.map(subject => {
-            const hasSelected = subject.groups.some(g =>
-              g.topics.some(t => t.id === selectedTopicId)
-            );
-            const readyCount = subject.groups.reduce(
-              (acc, g) => acc + g.topics.filter(t => t.status === 'ready').length,
-              0
-            );
-
+            const hasReady = subject.groups.some(g => g.topics.some(t => t.status === 'ready'));
             return (
               <button
                 key={subject.id}
                 type="button"
-                className={`sidebar-rail-icon-btn ${hasSelected ? 'active' : ''}`}
+                className="sidebar-rail-btn"
                 onClick={() => handleRailSubjectClick(subject.id)}
-                title={`${subject.title} (${readyCount} ready)`}
-                aria-label={`${subject.title} (${readyCount} ready)`}
+                title={`${subject.title} (${subject.section})`}
+                aria-label={`Open ${subject.title}`}
               >
                 {getSubjectIcon(subject.id, 18)}
-                {readyCount > 0 && (
-                  <span className="sidebar-rail-dot" aria-label={`${readyCount} ready topics`} />
+                {hasReady && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '6px',
+                      right: '6px',
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      background: 'var(--primary-action)'
+                    }}
+                  />
                 )}
               </button>
             );
           })}
         </div>
-
-        {/* Rail Footer */}
-        <div className="sidebar-rail-footer">
-          <button
-            type="button"
-            className="sidebar-rail-icon-btn"
-            onClick={onOpenAddNotesGuide}
-            title="Add Notes Guide"
-            aria-label="Add Notes Guide"
-          >
-            <PlusCircle size={18} />
-          </button>
-        </div>
       </aside>
     );
   }
 
-  // Full Expanded Sidebar View (Desktop & Mobile Drawer)
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
+      {/* Mobile Drawer Backdrop */}
       {isMobileOpen && (
         <div
-          className="sidebar-backdrop"
+          className="sidebar-backdrop mobile-only"
           onClick={onCloseMobile}
           aria-hidden="true"
         />
       )}
 
+      {/* Main Floating Rounded Sidebar Panel */}
       <aside
         className={`app-sidebar ${isMobileOpen ? 'mobile-open' : ''}`}
-        role="navigation"
-        aria-label="TCS NQT Syllabus Navigation"
-        aria-modal={isMobileOpen ? 'true' : undefined}
+        aria-label="Syllabus Navigation Tree"
       >
-        {/* Top Header: Search Field + Single Clean Closer */}
-        <div className="sidebar-top-bar">
-          <div className="sidebar-search-box">
-            <label htmlFor="sidebar-search-input" className="visually-hidden">
-              Search syllabus subjects and topics
-            </label>
-            <Search size={14} className="sidebar-search-icon" aria-hidden="true" />
-            <input
-              ref={searchInputRef}
-              id="sidebar-search-input"
-              type="search"
-              className="sidebar-search-input"
-              placeholder="Search subjects & topics..."
-              value={searchFilter}
-              onChange={e => setSearchFilter(e.target.value)}
-              aria-label="Filter syllabus subjects and topics"
-            />
-            {searchFilter && (
-              <button
-                type="button"
-                className="sidebar-search-clear-btn"
-                onClick={() => {
-                  setSearchFilter('');
-                  searchInputRef.current?.focus();
-                }}
-                aria-label="Clear search query"
-              >
-                <X size={13} />
-              </button>
-            )}
+        {/* Top Header Row */}
+        <div className="sidebar-header">
+          <div className="sidebar-title-badge">
+            <GraduationCap size={18} color="var(--primary-action)" />
+            <span>Syllabus Index</span>
           </div>
 
           <button
@@ -605,7 +397,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Collapse sidebar (Ctrl+\)"
             aria-label="Collapse sidebar navigation"
           >
-            <PanelLeftClose size={15} strokeWidth={2} />
+            <PanelLeftClose size={15} />
           </button>
 
           <button
@@ -615,8 +407,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Close navigation drawer"
             aria-label="Close navigation drawer"
           >
-            <X size={15} strokeWidth={2} />
+            <X size={15} />
           </button>
+        </div>
+
+        {/* Quick Search Filter Box */}
+        <div className="sidebar-search-box">
+          <Search size={14} className="sidebar-search-icon" aria-hidden="true" />
+          <input
+            ref={searchInputRef}
+            type="search"
+            className="sidebar-search-input"
+            placeholder="Filter topics..."
+            value={searchFilter}
+            onChange={e => setSearchFilter(e.target.value)}
+            aria-label="Filter syllabus topics"
+          />
+          {searchFilter && (
+            <button
+              type="button"
+              className="sidebar-search-clear"
+              onClick={() => setSearchFilter('')}
+              aria-label="Clear filter"
+            >
+              <X size={13} />
+            </button>
+          )}
         </div>
 
         {isSearching && (
@@ -632,7 +448,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         )}
 
-        {/* Fast Dashboard Action */}
+        {/* Dashboard Link Row */}
         <div className="sidebar-home-link-row">
           <button
             type="button"
@@ -644,79 +460,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
 
-        {/* Main Independently Scrollable Navigation Area */}
+        {/* Independently Scrollable Navigation Area */}
         <div className="sidebar-scroll-area">
           {isSearching && totalMatches === 0 ? (
-            /* No Matches Useful State */
-            <div className="sidebar-no-results-box" role="status">
-              <div className="sidebar-no-results-icon" aria-hidden="true">
-                <AlertCircle size={24} />
-              </div>
-              <h4 className="sidebar-no-results-title">No syllabus topics found</h4>
-              <p className="sidebar-no-results-desc">
-                No topics matched "<strong>{searchFilter}</strong>". Try another keyword or clear search.
-              </p>
-              <div className="sidebar-no-results-actions">
-                <button
-                  type="button"
-                  className="sidebar-no-results-btn"
-                  onClick={() => setSearchFilter('')}
-                >
-                  Reset Filter
-                </button>
-                {onOpenAddNotesGuide && (
-                  <button
-                    type="button"
-                    className="sidebar-no-results-add-btn"
-                    onClick={() => {
-                      if (isMobileOpen) onCloseMobile();
-                      onOpenAddNotesGuide();
-                    }}
-                  >
-                    <PlusCircle size={14} />
-                    <span>Suggest Adding Notes</span>
-                  </button>
-                )}
-              </div>
+            <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'var(--text-muted)' }}>
+              <AlertCircle size={28} style={{ margin: '0 auto 0.5rem', color: 'var(--secondary-accent)' }} />
+              <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>No topics found</div>
+              <div style={{ fontSize: '0.78rem', marginTop: '0.25rem' }}>No matches for "{searchFilter}"</div>
+              <button
+                type="button"
+                className="add-notes-btn"
+                style={{ marginTop: '0.85rem', fontSize: '0.78rem', padding: '0.45rem 0.85rem' }}
+                onClick={() => setSearchFilter('')}
+              >
+                Reset Filter
+              </button>
             </div>
           ) : (
             <>
-              {/* Foundation Section */}
-              {renderSection('Foundation', 'Easy-Med', foundationSubjects)}
+              {/* Foundation Section Heading (Clean visual divider without awkward collapsing) */}
+              <div className="sidebar-section-divider">
+                <span className="sidebar-section-label">Foundation Section</span>
+                <span className="sidebar-section-badge">Easy–Med</span>
+              </div>
+              <div className="sidebar-section-list">
+                {foundationSubjects.map(subject => renderSubject(subject))}
+              </div>
 
-              {/* Advance Section */}
-              {renderSection('Advance', 'Hard', advanceSubjects)}
+              {/* Advance Section Heading */}
+              <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                <span className="sidebar-section-label">Advance Section</span>
+                <span className="sidebar-section-badge advance">Hard</span>
+              </div>
+              <div className="sidebar-section-list">
+                {advanceSubjects.map(subject => renderSubject(subject))}
+              </div>
             </>
           )}
-        </div>
-
-        {/* Persistent Sidebar Footer (Inspired by reference footer) */}
-        <div className="sidebar-footer">
-          <div className="sidebar-footer-card">
-            <div className="sidebar-footer-avatar" aria-hidden="true">
-              <User size={15} strokeWidth={2} />
-            </div>
-            <div className="sidebar-footer-meta">
-              <span className="sidebar-footer-title">Aptitude Learner</span>
-              <span className="sidebar-footer-subtitle">
-                {completedTopics.filter(id => readyTopicIds.includes(id)).length}/{readyTopicIds.length} Ready Done
-              </span>
-            </div>
-            {onOpenAddNotesGuide && (
-              <button
-                type="button"
-                className="sidebar-footer-action-btn"
-                onClick={() => {
-                  if (isMobileOpen) onCloseMobile();
-                  onOpenAddNotesGuide();
-                }}
-                title="Contribute notes"
-                aria-label="Add or contribute study notes"
-              >
-                <Plus size={15} strokeWidth={2.2} />
-              </button>
-            )}
-          </div>
         </div>
       </aside>
     </>
