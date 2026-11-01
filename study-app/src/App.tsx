@@ -9,6 +9,7 @@ import { PercentageView } from './components/PercentageView';
 import { TSDView } from './components/TSDView';
 import { TimeWorkView } from './components/TimeWorkView';
 import { RatioView } from './components/RatioView';
+import { ProfitLossView } from './components/ProfitLossView';
 import { EmptyTopicView } from './components/EmptyTopicView';
 import { AddNotesModal } from './components/AddNotesModal';
 import { ArrowRight, Check, Search } from 'lucide-react';
@@ -139,14 +140,24 @@ export const App: React.FC = () => {
   // Current topic detail
   const currentTopicData = selectedTopicId ? findTopicById(selectedTopicId) : null;
 
+  // Dynamically calculate ready topics
+  const readyTopicsList = useMemo(() => {
+    return getAllTopics().filter(t => t.status === 'ready');
+  }, []);
+
+  const completedReadyCount = useMemo(() => {
+    const readyIds = new Set(readyTopicsList.map(t => t.id));
+    return completedTopics.filter(id => readyIds.has(id)).length;
+  }, [completedTopics, readyTopicsList]);
+
   return (
     <div className="app-layout">
       {/* Header */}
       <Header
         onGoHome={handleGoHome}
         onOpenAddNotes={() => setIsAddNotesModalOpen(true)}
-        completedCount={completedTopics.filter(id => ['percentages', 'speed-time-and-distance', 'work-and-time', 'number-system-lcm-hcf', 'ratios-proportion', 'allegations-and-mixtures'].includes(id)).length}
-        totalAvailable={6}
+        completedCount={completedReadyCount}
+        totalAvailable={readyTopicsList.length}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onToggleMobileSidebar={handleToggleMobileSidebar}
@@ -265,6 +276,12 @@ export const App: React.FC = () => {
             <RatioView
               isCompleted={completedTopics.includes(currentTopicData.topic.id)}
               onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
+            />
+          ) : currentTopicData?.topic.id === 'profit-and-loss' ? (
+            /* Profit, Loss & Discount Study View */
+            <ProfitLossView
+              isCompleted={completedTopics.includes('profit-and-loss')}
+              onToggleComplete={() => handleToggleComplete('profit-and-loss')}
             />
           ) : currentTopicData ? (
             /* Empty State for topics without notes */

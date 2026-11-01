@@ -104,7 +104,11 @@ export const syllabusData: SubjectArea[] = [
           {
             id: 'profit-and-loss',
             title: 'Profit and Loss',
-            status: 'needed'
+            status: 'ready',
+            noteFile: 'Numarical/Profit,Loss&Discount.md',
+            summary: '7 complete modules covering Golden Ratio MP/CP equation, column cross-simplification for successive discounts, Buy X Get Y Free retail schemes, article parity LCM method, budget price-quantity inversion, and stock split weighted averages.',
+            formulaCount: 13,
+            exampleCount: 13
           },
           {
             id: 'averages',

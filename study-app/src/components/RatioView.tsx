@@ -190,7 +190,7 @@ export const RatioView: React.FC<RatioViewProps> = ({
           </a>
         </div>
 
-        
+
       </div>
 
       {/* Interactive Tool: Ratio Combiner & Amount Scaler */}
@@ -389,30 +389,28 @@ export const RatioView: React.FC<RatioViewProps> = ({
       </div>
 
       {/* Master Formula Sheet */}
-      <section id="formula-sheet" className="formula-sheet-container" style={{ marginTop: '2.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
-          <div>
-            <h3 style={{ fontSize: '1.45rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>
-              Master Formula & Shortcut Sheet
-            </h3>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-              Instant memory cheat-sheet for Ratios, Proportions, Mixtures, Partnerships, and Ages.
-            </p>
-          </div>
+      <section id="formula-sheet" className="formula-sheet-container">
+        <div className="formula-sheet-header">
+          <h3 style={{ fontSize: '1.45rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>
+            Master Formula & Shortcut Sheet
+          </h3>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+            Instant memory cheat-sheet for Ratios, Proportions, Mixtures, Partnerships, and Ages.
+          </p>
+        </div>
 
-          {/* Category Tabs */}
-          <div className="formula-cat-tabs">
-            {['All', 'Fundamentals', 'Combinations', 'Division', 'Proportions', 'Coins', 'Partnership', 'Ages', 'Mixtures'].map(cat => (
-              <button
-                key={cat}
-                type="button"
-                className={`formula-cat-pill ${activeFormulaCat === cat ? 'active' : ''}`}
-                onClick={() => setActiveFormulaCat(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        {/* Category Tabs */}
+        <div className="formula-cat-tabs">
+          {['All', 'Fundamentals', 'Combinations', 'Division', 'Proportions', 'Coins', 'Partnership', 'Ages', 'Mixtures'].map(cat => (
+            <button
+              key={cat}
+              type="button"
+              className={`formula-cat-pill ${activeFormulaCat === cat ? 'active' : ''}`}
+              onClick={() => setActiveFormulaCat(cat)}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         <div className="formula-grid">
@@ -466,7 +464,7 @@ export const RatioView: React.FC<RatioViewProps> = ({
 
             <div className="quiz-options-list">
               {currentQ.options.map((opt, oIdx) => {
-                let btnClass = 'quiz-option-btn';
+                let btnClass = 'quiz-option-button';
                 const isSelected = selectedAnswer === oIdx;
                 const isCorrect = oIdx === currentQ.correctIndex;
 
@@ -483,10 +481,32 @@ export const RatioView: React.FC<RatioViewProps> = ({
                     onClick={() => handleSelectOption(oIdx)}
                     disabled={selectedAnswer !== undefined}
                   >
-                    <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem', border: '1px solid var(--border-subtle)' }}>
+                    <span
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '50%',
+                        background: isSelected && !isCorrect
+                          ? 'var(--feedback-incorrect)'
+                          : isCorrect && selectedAnswer !== undefined
+                          ? 'var(--primary-action)'
+                          : 'var(--bg-card)',
+                        color: (isSelected && !isCorrect) || (isCorrect && selectedAnswer !== undefined)
+                          ? '#ffffff'
+                          : 'var(--text-main)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        fontSize: '0.82rem',
+                        border: '1px solid var(--border-subtle)',
+                        flexShrink: 0,
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
                       {String.fromCharCode(65 + oIdx)}
                     </span>
-                    <span>{opt}</span>
+                    <span style={{ flex: 1, textAlign: 'left' }}>{opt}</span>
                   </button>
                 );
               })}

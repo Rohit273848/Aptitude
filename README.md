@@ -20,3 +20,11 @@ A curated collection of quantitative aptitude revision notes and interactive stu
 - [Percentage Notes](Numarical/Percentage.md)
 - [Time & Work, Pipes & Cisterns + LCM & HCF Notes](Numarical/Time&Work+Pipes&Cisterns+LCM&HCF.md)
 - [Ratio & Proportion, Mixtures & Partnership Notes](Numarical/Ratio&Proportion+Mixtures&Partnership.md)
+- [Profit, Loss & Discount Notes](Numarical/Profit,Loss&Discount.md)
+
+## 🛠️ Contributor & Agent Guidelines
+
+- **[Note Integration Guide & Architecture Specification](../NOTE_INTEGRATION_GUIDE.md)**:
+  Detailed end-to-end SOP for converting raw video/topic notes into standardized Markdown notes and interactive React study modules.
+- **[Agent Workspace Rules (GEMINI.md)](../GEMINI.md)**:
+  Permanent workspace rules automatically loaded by Antigravity whenever adding or updating topic notes.

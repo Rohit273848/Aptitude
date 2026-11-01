@@ -19,6 +19,7 @@ import {
   FileText,
   Clock,
   Layers,
+  Plus,
   PlusCircle,
   AlertCircle,
   User,
@@ -107,6 +108,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     Foundation: true,
     Advance: true
   });
+
+  // Dynamically compute list of all ready topics across syllabus
+  const readyTopicIds = useMemo(() => {
+    const ids: string[] = [];
+    syllabus.forEach(sub => {
+      sub.groups.forEach(grp => {
+        grp.topics.forEach(t => {
+          if (t.status === 'ready') ids.push(t.id);
+        });
+      });
+    });
+    return ids;
+  }, [syllabus]);
 
   // When a topic is selected, automatically expand its parent subject
   useEffect(() => {
@@ -258,15 +272,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             {isDone ? (
               <CheckCircle2
-                size={16}
+                size={15}
+                strokeWidth={2.2}
                 className="sidebar-check-icon done"
-                color={isSelected ? 'var(--color-key-lime-pie)' : 'var(--primary-action)'}
+                color="#16a34a"
               />
             ) : (
               <Circle
-                size={16}
+                size={15}
+                strokeWidth={1.8}
                 className="sidebar-check-icon not-done"
-                color={isSelected ? 'rgba(255, 255, 255, 0.7)' : 'var(--color-stack-gray)'}
+                color="#94a3b8"
               />
             )}
           </button>
@@ -285,12 +301,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </span>
             ) : isReady ? (
               <span className="sidebar-status-pill status-ready" title="Ready to study complete notes">
-                <FileCheck size={11} aria-hidden="true" />
+                <FileText size={11} strokeWidth={2.2} aria-hidden="true" />
                 <span>Ready</span>
               </span>
             ) : (
               <span className="sidebar-status-pill status-needed" title="Awaiting notes contribution">
-                <FileText size={11} aria-hidden="true" />
+                <FileText size={11} strokeWidth={2} aria-hidden="true" />
                 <span>Notes needed</span>
               </span>
             )}
@@ -325,7 +341,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <div className="sidebar-subject-left">
             <span className="sidebar-subject-icon">
-              {getSubjectIcon(subject.id)}
+              {getSubjectIcon(subject.id, 16)}
             </span>
             <span className="sidebar-subject-title">{subject.title}</span>
           </div>
@@ -338,9 +354,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
             <span className="sidebar-chevron-wrap">
               {isExpanded ? (
-                <ChevronDown size={16} aria-hidden="true" />
+                <ChevronDown size={15} strokeWidth={2.2} aria-hidden="true" />
               ) : (
-                <ChevronRight size={16} aria-hidden="true" />
+                <ChevronRight size={15} strokeWidth={2.2} aria-hidden="true" />
               )}
             </span>
           </div>
@@ -355,7 +371,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.4rem' }}>
                   <span className="sidebar-status-pill status-needed">
-                    <FileText size={11} aria-hidden="true" />
+                    <FileText size={12} aria-hidden="true" />
                     <span>Notes needed</span>
                   </span>
                   {onOpenAddNotesGuide && (
@@ -372,7 +388,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             ) : (
               subject.groups.map(group => {
-                const showGroupHeader = subject.groups.length > 1;
+                const showGroupHeader = Boolean(group.title);
                 return (
                   <div key={group.id} className="sidebar-group-container">
                     {showGroupHeader && (
@@ -454,24 +470,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="sidebar-rail-header">
           <button
             type="button"
-            className="sidebar-rail-brand-btn"
-            onClick={onGoHome}
-            title="TCS NQT Study Portal - Return to Dashboard"
-            aria-label="Return to Dashboard"
-          >
-            <div className="sidebar-rail-logo-badge">
-              <GraduationCap size={20} />
-            </div>
-          </button>
-
-          <button
-            type="button"
             className="sidebar-rail-expand-btn"
             onClick={onToggleCollapse}
             title="Expand sidebar navigation"
             aria-label="Expand sidebar navigation"
           >
-            <PanelLeftOpen size={18} />
+            <PanelLeftOpen size={16} strokeWidth={2} />
           </button>
         </div>
 
@@ -484,7 +488,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Syllabus Dashboard"
             aria-label="Syllabus Dashboard"
           >
-            <Layers size={18} />
+            <Layers size={16} />
           </button>
 
           {/* Quick Search trigger */}
@@ -562,56 +566,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         aria-label="TCS NQT Syllabus Navigation"
         aria-modal={isMobileOpen ? 'true' : undefined}
       >
-        {/* Top Header: Brand Name + Study Icon + Collapse/Close controls */}
-        <div className="sidebar-header">
-          <button
-            type="button"
-            className="sidebar-brand-btn"
-            onClick={handleGoHomeWrapper}
-            title="TCS NQT Study Hub - Return to Dashboard"
-            aria-label="TCS NQT Study Hub Dashboard"
-          >
-            <div className="sidebar-brand-icon-box" aria-hidden="true">
-              <GraduationCap size={20} />
-            </div>
-            <div className="sidebar-brand-info">
-              <span className="sidebar-brand-title">TCS NQT Prep</span>
-              <span className="sidebar-brand-subtitle">Aptitude Learning Hub</span>
-            </div>
-          </button>
-
-          <div className="sidebar-header-controls">
-            {/* Desktop Collapse Button */}
-            <button
-              type="button"
-              className="sidebar-collapse-toggle-btn desktop-only"
-              onClick={onToggleCollapse}
-              title="Collapse sidebar (icons only)"
-              aria-label="Collapse sidebar"
-            >
-              <PanelLeftClose size={18} />
-            </button>
-
-            {/* Mobile Drawer Close Button */}
-            <button
-              type="button"
-              className="sidebar-close-btn mobile-only"
-              onClick={onCloseMobile}
-              title="Close navigation drawer"
-              aria-label="Close navigation drawer"
-            >
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* Search Field directly below header */}
-        <div className="sidebar-search-area">
+        {/* Top Header: Search Field + Single Clean Closer */}
+        <div className="sidebar-top-bar">
           <div className="sidebar-search-box">
             <label htmlFor="sidebar-search-input" className="visually-hidden">
               Search syllabus subjects and topics
             </label>
-            <Search size={15} className="sidebar-search-icon" aria-hidden="true" />
+            <Search size={14} className="sidebar-search-icon" aria-hidden="true" />
             <input
               ref={searchInputRef}
               id="sidebar-search-input"
@@ -632,24 +593,44 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }}
                 aria-label="Clear search query"
               >
-                <X size={14} />
+                <X size={13} />
               </button>
             )}
           </div>
 
-          {isSearching && (
-            <div className="sidebar-search-meta" aria-live="polite">
-              <span>Found {totalMatches} {totalMatches === 1 ? 'topic' : 'topics'}</span>
-              <button
-                type="button"
-                className="sidebar-search-reset-link"
-                onClick={() => setSearchFilter('')}
-              >
-                Clear
-              </button>
-            </div>
-          )}
+          <button
+            type="button"
+            className="sidebar-collapse-toggle-btn desktop-only"
+            onClick={onToggleCollapse}
+            title="Collapse sidebar (Ctrl+\)"
+            aria-label="Collapse sidebar navigation"
+          >
+            <PanelLeftClose size={15} strokeWidth={2} />
+          </button>
+
+          <button
+            type="button"
+            className="sidebar-collapse-toggle-btn mobile-only"
+            onClick={onCloseMobile}
+            title="Close navigation drawer"
+            aria-label="Close navigation drawer"
+          >
+            <X size={15} strokeWidth={2} />
+          </button>
         </div>
+
+        {isSearching && (
+          <div className="sidebar-search-meta" aria-live="polite">
+            <span>Found {totalMatches} {totalMatches === 1 ? 'topic' : 'topics'}</span>
+            <button
+              type="button"
+              className="sidebar-search-reset-link"
+              onClick={() => setSearchFilter('')}
+            >
+              Clear
+            </button>
+          </div>
+        )}
 
         {/* Fast Dashboard Action */}
         <div className="sidebar-home-link-row">
@@ -701,7 +682,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <>
               {/* Foundation Section */}
-              {renderSection('Foundation', 'Easy–Medium', foundationSubjects)}
+              {renderSection('Foundation', 'Easy-Med', foundationSubjects)}
 
               {/* Advance Section */}
               {renderSection('Advance', 'Hard', advanceSubjects)}
@@ -713,12 +694,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="sidebar-footer">
           <div className="sidebar-footer-card">
             <div className="sidebar-footer-avatar" aria-hidden="true">
-              <User size={16} />
+              <User size={15} strokeWidth={2} />
             </div>
             <div className="sidebar-footer-meta">
               <span className="sidebar-footer-title">Aptitude Learner</span>
               <span className="sidebar-footer-subtitle">
-                {completedTopics.filter(id => ['percentages', 'speed-time-and-distance'].includes(id)).length}/2 Ready Done
+                {completedTopics.filter(id => readyTopicIds.includes(id)).length}/{readyTopicIds.length} Ready Done
               </span>
             </div>
             {onOpenAddNotesGuide && (
@@ -732,7 +713,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 title="Contribute notes"
                 aria-label="Add or contribute study notes"
               >
-                <PlusCircle size={16} />
+                <Plus size={15} strokeWidth={2.2} />
               </button>
             )}
           </div>

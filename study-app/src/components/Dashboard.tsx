@@ -128,6 +128,32 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </span>
             </div>
           </div>
+
+          {/* Profit, Loss & Discount Card */}
+          <div
+            className="subject-card featured-lesson-card"
+            style={{ borderLeft: '4px solid var(--primary-action)', cursor: 'pointer' }}
+            onClick={() => onSelectTopic('profit-and-loss')}
+          >
+            <div>
+              <div className="subject-card-header">
+                <span className="topic-status-pill ready">Notes Available</span>
+                <span className="subject-difficulty-tag">Easy–Medium</span>
+              </div>
+              <h4 className="subject-card-title">Profit, Loss & Discount + Retail Schemes</h4>
+              <p className="subject-card-desc">
+                7 complete modules covering the Golden Ratio MP/CP equation, column cross-simplification for successive discounts, Buy X Get Y Free promotions, price-quantity inversion, and placement quiz.
+              </p>
+            </div>
+            <div className="subject-progress-footer">
+              <span style={{ fontWeight: 600, color: 'var(--primary-action)' }}>
+                13 Formulas &bull; 13 Solutions &bull; Quiz
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: 'var(--primary-action)', fontWeight: 700 }}>
+                Open Lesson <ArrowRight size={14} />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
