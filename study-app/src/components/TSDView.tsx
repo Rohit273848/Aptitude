@@ -139,47 +139,6 @@ export const TSDView: React.FC<TSDViewProps> = ({
         </p>
       </div>
 
-      {/* Lesson Navigation & Toolbar */}
-      <div className="lesson-controls-bar">
-        <div className="lesson-controls-group">
-          <button
-            type="button"
-            className="lesson-control-btn"
-            onClick={() => setExpandAll(prev => !prev)}
-          >
-            {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
-          </button>
-
-          <a href="#unit-converter" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>⚡ Unit Converter</span>
-          </a>
-
-          <a href="#formula-sheet" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📐 Master Formulas</span>
-          </a>
-
-          <a href="#placement-quiz" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🎯 Placement Quiz</span>
-          </a>
-
-          <a href="#corrections-audit" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🔍 Corrections</span>
-          </a>
-        </div>
-
-        <div className="lesson-search-box">
-          <Search size={14} className="lesson-search-icon" />
-          <input
-            type="text"
-            className="lesson-search-input"
-            placeholder="Search within TSD notes..."
-            value={topicSearch}
-            onChange={e => setTopicSearch(e.target.value)}
-          />
-        </div>
-      </div>
-
       {/* Interactive Unit Converter Tool */}
       <section id="unit-converter" className="converter-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>

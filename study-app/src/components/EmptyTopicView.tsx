@@ -18,10 +18,79 @@ export const EmptyTopicView: React.FC<EmptyTopicViewProps> = ({
   const [copied, setCopied] = useState(false);
 
   // Recommended file convention
-  const suggestedFileName = `${topic.title.replace(/[^a-zA-Z0-9]+/g, '_')}.md`;
-  const suggestedPath = `Aptitude/Numarical/${suggestedFileName}`;
+  const isDsa = subject.section === 'DSA' || subject.id.includes('dsa') || subject.id.includes('coding');
+  const suggestedFileName = topic.noteFile ? topic.noteFile.split('/').pop() : `${topic.title.replace(/[^a-zA-Z0-9]+/g, '_')}.md`;
+  const suggestedPath = topic.noteFile || (isDsa ? `DSA/${suggestedFileName}` : `Aptitude/Numarical/${suggestedFileName}`);
 
-  const boilerplateMarkdown = `# ${topic.title}
+  const boilerplateMarkdown = isDsa
+    ? `# ${topic.title}
+
+> **Data Structures & Algorithms revision notes** for technical campus placements (TCS NQT Hands-on Coding / Digital / Prime, Infosys, Cognizant, Wipro, Accenture, LeetCode). Written in GitHub-compatible Markdown/LaTeX.
+
+## Table of Contents
+1. [Core Concepts & Mental Model](#1-core-concepts--mental-model)
+2. [Time & Space Complexity Bounds](#2-time--space-complexity-bounds)
+3. [Key Algorithmic Patterns & Templates](#3-key-algorithmic-patterns--templates)
+4. [Standard Placement Practice Problems](#4-standard-placement-practice-problems)
+5. [Common Edge Cases & Traps](#5-common-edge-cases--traps)
+
+---
+
+## 1. Core Concepts & Mental Model
+- Theoretical foundation, underlying memory layout, and invariants for ${topic.title}.
+- When to select this data structure or algorithm over alternatives.
+
+---
+
+## 2. Time & Space Complexity Bounds
+
+| Operation / Scenario | Time Complexity | Auxiliary Space | Remarks |
+| :--- | :--- | :--- | :--- |
+| Best Case | $\\mathcal{O}(1)$ | $\\mathcal{O}(1)$ | Optimal input scenario |
+| Average Case | $\\mathcal{O}(N)$ | $\\mathcal{O}(1)$ | Standard scenario |
+| Worst Case | $\\mathcal{O}(N \\log N)$ | $\\mathcal{O}(N)$ | Pathological input |
+
+---
+
+## 3. Key Algorithmic Patterns & Templates
+
+### Canonical Pattern: [Pattern Name]
+
+\`\`\`cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Standard template for ${topic.title}
+void solve() {
+    // Implementation
+}
+\`\`\`
+
+---
+
+## 4. Standard Placement Practice Problems
+
+### Problem 1: [Descriptive Problem Name]
+
+**Problem Statement:**
+[Description of the problem]
+
+**Optimal Approach & Logic:**
+1. Step-by-step invariant logic...
+2. State transitions and edge checks...
+
+**Complexity:**
+- **Time Complexity:** $\\mathcal{O}(N)$
+- **Space Complexity:** $\\mathcal{O}(1)$
+
+---
+
+## 5. Common Edge Cases & Traps
+> [!WARNING]
+> Always check: Empty or null input, single element, negative numbers, overflow on large integers, and boundary conditions.
+`
+    : `# ${topic.title}
 
 > **Aptitude revision notes** for placement preparation, including TCS NQT, Cognizant, Infosys, Wipro, Accenture, and other campus aptitude rounds. Formulas and step-by-step models are written in GitHub-compatible Markdown/LaTeX.
 
@@ -43,7 +112,7 @@ Question statement goes here.
 **Step 1: Set up the equation**
 $$
 \\Large
-\\text{Math expression}
+\\text{Step equation}
 $$
 
 **Final Answer:**
@@ -148,10 +217,14 @@ The final result is $\\Large \\boxed{\\mathbf{Answer}}$.
 
           <div style={{ background: 'var(--bg-secondary)', padding: '1.15rem', borderRadius: 'var(--radius-md)' }}>
             <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
-              2. Math Formulas
+              {isDsa ? '2. Code & Complexity' : '2. Math Formulas'}
             </div>
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              Center with <code>$$ \Large \boxed{'{...}'} $$</code>
+              {isDsa ? (
+                <>Format code blocks &amp; KaTeX <code>$\mathcal{'{O}'}(N)$</code></>
+              ) : (
+                <>Center with <code>$$ \Large \boxed{'{...}'} $$</code></>
+              )}
             </div>
           </div>
 

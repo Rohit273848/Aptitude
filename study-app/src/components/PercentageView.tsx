@@ -76,39 +76,6 @@ export const PercentageView: React.FC<PercentageViewProps> = ({
         </p>
       </div>
 
-      {/* Lesson Navigation & View Controls Bar */}
-      <div className="lesson-controls-bar">
-        <div className="lesson-controls-group">
-          <button
-            type="button"
-            className="lesson-control-btn"
-            onClick={() => setExpandAll(prev => !prev)}
-          >
-            {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
-          </button>
-
-          <a href="#fraction-table" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📊 Fraction Shortcuts</span>
-          </a>
-
-          <a href="#mental-tricks" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>⚡ Mental Math Tricks</span>
-          </a>
-        </div>
-
-        <div className="lesson-search-box">
-          <Search size={14} className="lesson-search-icon" />
-          <input
-            type="text"
-            className="lesson-search-input"
-            placeholder="Search within Percentages..."
-            value={topicSearch}
-            onChange={e => setTopicSearch(e.target.value)}
-          />
-        </div>
-      </div>
-
       {/* Notation Callout */}
       <div className="callout-block info">
         <div className="callout-header">

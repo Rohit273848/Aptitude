@@ -10,6 +10,7 @@ import { TSDView } from './components/TSDView';
 import { TimeWorkView } from './components/TimeWorkView';
 import { RatioView } from './components/RatioView';
 import { ProfitLossView } from './components/ProfitLossView';
+import { NumberSystemView } from './components/NumberSystemView';
 import { EmptyTopicView } from './components/EmptyTopicView';
 import { AddNotesModal } from './components/AddNotesModal';
 import { NotesContextRail } from './components/NotesContextRail';
@@ -297,10 +298,15 @@ export const App: React.FC = () => {
                     isCompleted={completedTopics.includes('speed-time-and-distance')}
                     onToggleComplete={() => handleToggleComplete('speed-time-and-distance')}
                   />
-                ) : (currentTopicData.topic.id === 'work-and-time' || currentTopicData.topic.id === 'number-system-lcm-hcf') ? (
+                ) : currentTopicData.topic.id === 'number-system-lcm-hcf' ? (
+                  <NumberSystemView
+                    isCompleted={completedTopics.includes('number-system-lcm-hcf')}
+                    onToggleComplete={() => handleToggleComplete('number-system-lcm-hcf')}
+                  />
+                ) : currentTopicData.topic.id === 'work-and-time' ? (
                   <TimeWorkView
-                    isCompleted={completedTopics.includes(currentTopicData.topic.id)}
-                    onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
+                    isCompleted={completedTopics.includes('work-and-time')}
+                    onToggleComplete={() => handleToggleComplete('work-and-time')}
                   />
                 ) : (currentTopicData.topic.id === 'ratios-proportion' || currentTopicData.topic.id === 'allegations-and-mixtures') ? (
                   <RatioView

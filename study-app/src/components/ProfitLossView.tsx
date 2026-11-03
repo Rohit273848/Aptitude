@@ -184,54 +184,7 @@ export const ProfitLossView: React.FC<ProfitLossViewProps> = ({
         </p>
       </div>
 
-      {/* Lesson Navigation & Toolbar */}
-      <div className="lesson-controls-bar">
-        <div className="lesson-controls-group">
-          <button
-            type="button"
-            className="lesson-control-btn"
-            onClick={() => setExpandAll(prev => !prev)}
-          >
-            {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
-          </button>
-
-          <a href="#interactive-tool" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>⚡ Golden & Discount Tool</span>
-          </a>
-
-          <a href="#formula-sheet" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📐 Master Formulas</span>
-          </a>
-
-          <a href="#study-modules" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📚 Core Modules (1–7)</span>
-          </a>
-
-          <a href="#placement-quiz" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🎯 Placement Quiz</span>
-          </a>
-
-          <a href="#homework-section" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>✍️ Homework Solutions</span>
-          </a>
-
-          <a href="#corrections-audit" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🔍 Key Takeaways</span>
-          </a>
-        </div>
-
-        <div className="lesson-search-box">
-          <Search size={14} className="lesson-search-icon" />
-          <input
-            type="text"
-            className="lesson-search-input"
-            placeholder="Search within Profit & Loss notes..."
-            value={topicSearch}
-            onChange={e => setTopicSearch(e.target.value)}
-          />
-        </div>
-      </div>
+      {/* Interactive Tool: Golden MP/CP Ratio & Chain Discount Calculator */}
 
       {/* Interactive Tool Section (Standard converter-card layout) */}
       <section id="interactive-tool" className="converter-card">

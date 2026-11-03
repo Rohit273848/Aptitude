@@ -173,34 +173,6 @@ export const RatioView: React.FC<RatioViewProps> = ({
         </p>
       </div>
 
-      {/* Lesson Navigation & Toolbar */}
-      <div className="lesson-controls-bar">
-        <div className="lesson-controls-group">
-          <button
-            type="button"
-            className="lesson-control-btn"
-            onClick={() => setExpandAll(prev => !prev)}
-          >
-            {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
-          </button>
-
-          <a href="#ratio-combiner" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>⚡ Ratio Combiner</span>
-          </a>
-
-          <a href="#formula-sheet" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📐 Master Formulas</span>
-          </a>
-
-          <a href="#quiz-checkpoint" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🎯 Placement Quiz</span>
-          </a>
-        </div>
-
-
-      </div>
-
       {/* Interactive Tool: Ratio Combiner & Amount Scaler */}
       <section id="ratio-combiner" className="unit-converter-card">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>

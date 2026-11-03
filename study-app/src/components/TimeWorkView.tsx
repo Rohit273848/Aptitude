@@ -168,34 +168,6 @@ export const TimeWorkView: React.FC<TimeWorkViewProps> = ({
         </p>
       </div>
 
-      {/* Lesson Navigation & Toolbar */}
-      <div className="lesson-controls-bar">
-        <div className="lesson-controls-group">
-          <button
-            type="button"
-            className="lesson-control-btn"
-            onClick={() => setExpandAll(prev => !prev)}
-          >
-            {expandAll ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            <span>{expandAll ? 'Collapse Solutions' : 'Expand Solutions'}</span>
-          </button>
-
-          <a href="#work-calculator" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>⚡ Efficiency Calculator</span>
-          </a>
-
-          <a href="#formula-sheet" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>📐 Master Formulas</span>
-          </a>
-
-          <a href="#quiz-checkpoint" className="lesson-control-btn" style={{ textDecoration: 'none' }}>
-            <span>🎯 Placement Quiz</span>
-          </a>
-        </div>
-
-
-      </div>
-
       {/* Interactive Tool: Work & Efficiency Calculator */}
       <section id="work-calculator" className="unit-converter-card">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>

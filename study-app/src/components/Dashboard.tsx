@@ -104,6 +104,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
       section: 'Foundation',
       desc: 'Ratio combination grid, unit scalers, mean/third/fourth proportions, coin problems, partnership profit splits, and dilution formulas.',
       stats: '16 Formulas • 12 Solutions'
+    },
+    {
+      id: 'number-system-lcm-hcf',
+      title: 'Number System, Primes & LCM-HCF',
+      difficulty: 'Easy–Medium',
+      section: 'Foundation',
+      desc: 'Prime distributions (1-50, 51-100, 101-200), prime factor trees, fractions/decimals LCM & HCF golden rules, and simultaneous periodic events.',
+      stats: '14 Formulas • 8 Solutions • Quiz'
     }
   ];
 
@@ -157,7 +165,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
               <div className="stat-card-number">{stats.totalTopics}</div>
               <div className="stat-card-footer">
-                <span>Across 6 subjects</span>
+                <span>Across {syllabus.length} subjects</span>
               </div>
             </div>
 
@@ -239,26 +247,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
 
               <div className="pipeline-stage-item">
+                <span className="pipeline-stage-label">Advance Modules</span>
+                <span className="pipeline-stage-count">02 Subjects</span>
+                <div className="pipeline-stage-bar">
+                  <div className="pipeline-stage-fill orange" style={{ width: '80%' }} />
+                </div>
+              </div>
+
+              <div className="pipeline-stage-item">
+                <span className="pipeline-stage-label">DSA & Coding</span>
+                <span className="pipeline-stage-count">13 Topics</span>
+                <div className="pipeline-stage-bar">
+                  <div className="pipeline-stage-fill blue" style={{ width: '100%' }} />
+                </div>
+              </div>
+
+              <div className="pipeline-stage-item">
                 <span className="pipeline-stage-label">Verified Lessons</span>
                 <span className="pipeline-stage-count">{stats.readyTopics} Ready</span>
                 <div className="pipeline-stage-bar">
                   <div className="pipeline-stage-fill emerald" style={{ width: `${Math.min(100, (stats.readyTopics / 10) * 100)}%` }} />
-                </div>
-              </div>
-
-              <div className="pipeline-stage-item">
-                <span className="pipeline-stage-label">Topics Mastered</span>
-                <span className="pipeline-stage-count">{stats.completedCount} Done</span>
-                <div className="pipeline-stage-bar">
-                  <div className="pipeline-stage-fill orange" style={{ width: `${stats.completionPct}%` }} />
-                </div>
-              </div>
-
-              <div className="pipeline-stage-item">
-                <span className="pipeline-stage-label">Advance Modules</span>
-                <span className="pipeline-stage-count">03 Modules</span>
-                <div className="pipeline-stage-bar">
-                  <div className="pipeline-stage-fill gray" style={{ width: '35%' }} />
                 </div>
               </div>
             </div>
@@ -315,7 +323,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div>
                 <h3 className="dashboard-section-title">Syllabus Subject Overview</h3>
                 <p className="dashboard-section-desc">
-                  Browse all six TCS NQT testing modules across Foundation and Advance sections.
+                  Browse all TCS NQT and placement testing modules across Foundation, Advance, and DSA &amp; Coding sections.
                 </p>
               </div>
             </div>

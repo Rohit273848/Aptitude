@@ -966,6 +966,16 @@ a:hover {
   color: var(--secondary-accent);
 }
 
+.sidebar-section-badge.dsa {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+}
+
+[data-theme='dark'] .sidebar-section-badge.dsa {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+}
+
 .sidebar-section-list {
   display: flex;
   flex-direction: column;
@@ -1588,6 +1598,14 @@ a:hover {
 
 .pipeline-stage-fill.orange {
   background: var(--secondary-accent);
+}
+
+.pipeline-stage-fill.blue {
+  background: #0284c7;
+}
+
+[data-theme='dark'] .pipeline-stage-fill.blue {
+  background: #38bdf8;
 }
 
 .pipeline-stage-fill.gray {

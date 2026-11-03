@@ -48,6 +48,7 @@ const getSubjectIcon = (subjectId: string, size = 17) => {
     case 'advance-reasoning-ability':
       return <Sparkles size={size} aria-hidden="true" />;
     case 'advance-coding-ability':
+    case 'dsa-data-structures-algorithms':
       return <Code size={size} aria-hidden="true" />;
     default:
       return <BookOpen size={size} aria-hidden="true" />;
@@ -76,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     'foundation-verbal-ability': false,
     'advance-quantitative-ability': false,
     'advance-reasoning-ability': false,
-    'advance-coding-ability': false
+    'dsa-data-structures-algorithms': true
   });
 
   // When a topic is selected, automatically expand its parent subject
@@ -163,6 +164,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const foundationSubjects = filteredSyllabus.filter(s => s.section === 'Foundation');
   const advanceSubjects = filteredSyllabus.filter(s => s.section === 'Advance');
+  const dsaSubjects = filteredSyllabus.filter(s => s.section === 'DSA');
 
   const handleSelectTopicWrapper = (topicId: string) => {
     onSelectTopic(topicId);
@@ -488,13 +490,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
 
               {/* Advance Section Heading */}
-              <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
-                <span className="sidebar-section-label">Advance Section</span>
-                <span className="sidebar-section-badge advance">Hard</span>
-              </div>
-              <div className="sidebar-section-list">
-                {advanceSubjects.map(subject => renderSubject(subject))}
-              </div>
+              {advanceSubjects.length > 0 && (
+                <>
+                  <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                    <span className="sidebar-section-label">Advance Section</span>
+                    <span className="sidebar-section-badge advance">Hard</span>
+                  </div>
+                  <div className="sidebar-section-list">
+                    {advanceSubjects.map(subject => renderSubject(subject))}
+                  </div>
+                </>
+              )}
+
+              {/* Data Structures & Algorithms (DSA) Section Heading */}
+              {dsaSubjects.length > 0 && (
+                <>
+                  <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                    <span className="sidebar-section-label">DSA & Coding Section</span>
+                    <span className="sidebar-section-badge dsa">Core</span>
+                  </div>
+                  <div className="sidebar-section-list">
+                    {dsaSubjects.map(subject => renderSubject(subject))}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

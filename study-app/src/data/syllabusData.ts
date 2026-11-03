@@ -19,10 +19,10 @@ export const syllabusData: SubjectArea[] = [
             id: 'number-system-lcm-hcf',
             title: 'Number System, LCM & HCF',
             status: 'ready',
-            noteFile: 'Numarical/Time&Work+Pipes&Cisterns+LCM&HCF.md',
+            noteFile: 'Numarical/NumberSystem+LCM&HCF.md',
             summary: 'Number theory fundamentals, prime distribution counts (1-50, 51-100, 101-200), LCM/HCF of fractions & decimals, ratio multipliers, and periodic simultaneous events.',
-            formulaCount: 12,
-            exampleCount: 10
+            formulaCount: 14,
+            exampleCount: 8
           },
           {
             id: 'divisibility',
@@ -426,13 +426,114 @@ export const syllabusData: SubjectArea[] = [
       }
     ]
   },
+  // ==========================================
+  // DATA STRUCTURES & ALGORITHMS (DSA) SECTION
+  // ==========================================
   {
-    id: 'advance-coding-ability',
-    title: 'Advanced Coding Ability',
-    section: 'Advance',
-    difficulty: 'Hard',
-    description: 'Programming logic, algorithm problem-solving, and coding implementation in C/C++, Java, or Python.',
-    groups: [] // Intentionally empty: no invented topic list or lessons
+    id: 'dsa-data-structures-algorithms',
+    title: 'Data Structures & Algorithms',
+    section: 'DSA',
+    difficulty: 'Medium–Hard',
+    description: 'Core DSA concepts, data structures, algorithmic paradigms, time-space complexities, and coding interview preparation.',
+    groups: [
+      {
+        id: 'group-dsa-topics',
+        title: 'DSA Topics',
+        topics: [
+          {
+            id: 'dsa-programming-fundamentals',
+            title: 'Programming Fundamentals',
+            status: 'needed',
+            noteFile: 'DSA/Programming_Fundamentals.md',
+            summary: 'Language syntax, memory structure (stack vs heap), pointers, references, time & space complexities, asymptotic Big-O notations.'
+          },
+          {
+            id: 'dsa-number-system-mathematics',
+            title: 'Number System and Mathematics',
+            status: 'needed',
+            noteFile: 'DSA/Number_System_and_Mathematics.md',
+            summary: 'Bitwise operations (bitmasks, XOR tricks), prime checking & Sieve of Eratosthenes, Euclidean GCD/LCM, modular arithmetic, fast exponentiation.'
+          },
+          {
+            id: 'dsa-arrays',
+            title: 'Arrays',
+            status: 'needed',
+            noteFile: 'DSA/Arrays.md',
+            summary: 'Static and dynamic arrays, prefix sums, sliding window, two-pointer techniques, Kadane algorithm, Dutch National Flag, 2D matrix traversal.'
+          },
+          {
+            id: 'dsa-strings',
+            title: 'Strings',
+            status: 'needed',
+            noteFile: 'DSA/Strings.md',
+            summary: 'String immutability & ASCII manipulation, frequency count arrays, anagrams, palindromic substrings, sliding window strings, KMP string matching.'
+          },
+          {
+            id: 'dsa-searching-and-sorting',
+            title: 'Searching and Sorting',
+            status: 'needed',
+            noteFile: 'DSA/Searching_and_Sorting.md',
+            summary: 'Linear and Binary Search (search on answer monotonic predicate), Bubble, Selection, Insertion, Merge Sort, Quick Sort, Counting Sort.'
+          },
+          {
+            id: 'dsa-hashing',
+            title: 'Hashing',
+            status: 'needed',
+            noteFile: 'DSA/Hashing.md',
+            summary: 'Hash tables & direct address tables, collision resolution (chaining, open addressing), frequency maps, prefix sum hash map pattern.'
+          },
+          {
+            id: 'dsa-recursion-and-backtracking',
+            title: 'Recursion and Backtracking',
+            status: 'needed',
+            noteFile: 'DSA/Recursion_and_Backtracking.md',
+            summary: 'Recursion trees, call stack, base cases, recurrence relations, subset generation, permutations, N-Queens problem, Sudoku solver.'
+          },
+          {
+            id: 'dsa-stack-and-queue',
+            title: 'Stack and Queue',
+            status: 'needed',
+            noteFile: 'DSA/Stack_and_Queue.md',
+            summary: 'LIFO & FIFO primitives, monotonic stacks (Next Greater Element, largest rectangle in histogram), circular queues, min/max stack, deque.'
+          },
+          {
+            id: 'dsa-linked-list',
+            title: 'Linked List',
+            status: 'needed',
+            noteFile: 'DSA/Linked_List.md',
+            summary: 'Singly, doubly, and circular linked lists, in-place reversal, Floyd cycle detection (slow & fast pointers), merge sorted lists, LRU Cache.'
+          },
+          {
+            id: 'dsa-trees-and-binary-search-trees',
+            title: 'Trees and Binary Search Trees',
+            status: 'needed',
+            noteFile: 'DSA/Trees_and_Binary_Search_Trees.md',
+            summary: 'Tree traversals (DFS: Inorder, Preorder, Postorder; BFS: Level Order), BST properties, validation, LCA, tree height & diameter, balance checking.'
+          },
+          {
+            id: 'dsa-graphs',
+            title: 'Graphs',
+            status: 'needed',
+            noteFile: 'DSA/Graphs.md',
+            summary: 'Adjacency list & matrix representations, BFS & DFS, cycle detection (directed & undirected), topological sort (Kahn algorithm), Dijkstra shortest path, Disjoint Set Union (DSU).'
+          },
+          {
+            id: 'dsa-greedy-algorithms',
+            title: 'Greedy Algorithms',
+            status: 'needed',
+            noteFile: 'DSA/Greedy_Algorithms.md',
+            summary: 'Greedy choice property & optimal substructure, activity selection, fractional knapsack, job sequencing with deadlines, Huffman coding.'
+          },
+          {
+            id: 'dsa-dynamic-programming',
+            title: 'Dynamic Programming',
+            status: 'needed',
+            noteFile: 'DSA/Dynamic_Programming.md',
+            summary: 'Optimal substructure & overlapping subproblems, memoization vs tabulation, 0/1 Knapsack, Longest Common Subsequence (LCS), Longest Increasing Subsequence (LIS), Coin Change.'
+          }
+        ]
+      }
+    ]
   }
 ];
 

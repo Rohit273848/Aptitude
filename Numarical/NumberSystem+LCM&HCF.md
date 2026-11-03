@@ -418,3 +418,4 @@ The bells toll together $\Large \boxed{\mathbf{31}}$ times.
 | **Simultaneous Events** | Next event time $= \text{LCM}(\text{intervals})$ | Bells, traffic lights, race laps |
 
 *Revision tip: When dealing with divisibility by 72, test divisibility by 8 (last 3 digits) and 9 (sum of digits) independently.*
+
