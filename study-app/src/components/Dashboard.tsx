@@ -66,6 +66,30 @@ export const Dashboard: React.FC<DashboardProps> = ({
   // Featured lessons data mapping
   const featuredLessons = [
     {
+      id: 'hld-foundations',
+      title: 'System Design Foundations & The 9 Principles',
+      difficulty: 'Medium',
+      section: 'System Design',
+      desc: 'The 40-story building analogy, HLD vs LLD, client-server restaurant analogy, Delhi-to-Patna trade-off matrix, the 9 architectural pillars, and the SBI vs Instagram case study.',
+      stats: '9 Principles • Architecture Blueprint • Case Study'
+    },
+    {
+      id: 'dsa-trees-01-introduction',
+      title: 'Trees: 9-Part Binary Trees Master Series',
+      difficulty: 'Medium',
+      section: 'DSA',
+      desc: 'Episode 01–09 (Padho with Pratyush): Anatomy, Euler Tour traversals, BFS size-snapshot template, structural symmetry, mirror checks, 3 height problems, LCA, diameter, and path sums.',
+      stats: '9 Parts • 23 Problems • Java Invariants'
+    },
+    {
+      id: 'dsa-greedy-algorithms',
+      title: 'Greedy Algorithms: Regret Test & Patterns',
+      difficulty: 'Medium',
+      section: 'DSA',
+      desc: 'Core intuition & the Regret (Pachtawa) test, Lemonade Change (LC 860), Jump Game (LC 55) reach invariants, Fractional Knapsack unitary method, and interactive dry-run visualizer.',
+      stats: '6 Problems • Interactive Visualizer • Java'
+    },
+    {
       id: 'percentages',
       title: 'Percentages Formula Cheat Sheet',
       difficulty: 'Easy–Medium',
@@ -256,9 +280,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
               <div className="pipeline-stage-item">
                 <span className="pipeline-stage-label">DSA & Coding</span>
-                <span className="pipeline-stage-count">13 Topics</span>
+                <span className="pipeline-stage-count">22 Topics</span>
                 <div className="pipeline-stage-bar">
                   <div className="pipeline-stage-fill blue" style={{ width: '100%' }} />
+                </div>
+              </div>
+
+              <div className="pipeline-stage-item">
+                <span className="pipeline-stage-label">System Design (HLD)</span>
+                <span className="pipeline-stage-count">16 Topics</span>
+                <div className="pipeline-stage-bar">
+                  <div className="pipeline-stage-fill purple" style={{ width: '100%', background: '#8b5cf6' }} />
                 </div>
               </div>
 
@@ -323,7 +355,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div>
                 <h3 className="dashboard-section-title">Syllabus Subject Overview</h3>
                 <p className="dashboard-section-desc">
-                  Browse all TCS NQT and placement testing modules across Foundation, Advance, and DSA &amp; Coding sections.
+                  Browse all TCS NQT and placement testing modules across Foundation, Advance, DSA &amp; Coding, and System Design (HLD) sections.
                 </p>
               </div>
             </div>
@@ -340,7 +372,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <div key={subject.id} className="subject-card">
                     <div>
                       <div className="subject-card-header">
-                        <span className="subject-section-tag">{subject.section}</span>
+                        <span className={`subject-section-tag ${subject.section === 'System Design' ? 'hld' : ''}`}>{subject.section}</span>
                         <span className="subject-difficulty-tag">{subject.difficulty}</span>
                       </div>
                       <h4 className="subject-card-title">{subject.title}</h4>

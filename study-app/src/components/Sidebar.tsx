@@ -17,7 +17,8 @@ import {
   Layers,
   AlertCircle,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Server
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -50,6 +51,8 @@ const getSubjectIcon = (subjectId: string, size = 17) => {
     case 'advance-coding-ability':
     case 'dsa-data-structures-algorithms':
       return <Code size={size} aria-hidden="true" />;
+    case 'system-design-hld':
+      return <Server size={size} aria-hidden="true" />;
     default:
       return <BookOpen size={size} aria-hidden="true" />;
   }
@@ -77,7 +80,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     'foundation-verbal-ability': false,
     'advance-quantitative-ability': false,
     'advance-reasoning-ability': false,
-    'dsa-data-structures-algorithms': true
+    'dsa-data-structures-algorithms': true,
+    'system-design-hld': true
   });
 
   // When a topic is selected, automatically expand its parent subject
@@ -165,6 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const foundationSubjects = filteredSyllabus.filter(s => s.section === 'Foundation');
   const advanceSubjects = filteredSyllabus.filter(s => s.section === 'Advance');
   const dsaSubjects = filteredSyllabus.filter(s => s.section === 'DSA');
+  const systemDesignSubjects = filteredSyllabus.filter(s => s.section === 'System Design');
 
   const handleSelectTopicWrapper = (topicId: string) => {
     onSelectTopic(topicId);
@@ -307,67 +312,158 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  // Render Collapsed Rail Mode (Inspired by Nextstep Icon Rail)
-  if (isCollapsed) {
-    return (
-      <aside className="app-sidebar collapsed desktop-only" aria-label="Collapsed Syllabus Navigation Rail">
-        <div className="sidebar-rail-header">
+  // Render inner full sidebar navigation content
+  const renderTreeContent = (isMobileView: boolean) => (
+    <>
+      {/* Top Header Row */}
+      <div className="sidebar-header">
+        <div className="sidebar-title-badge">
+          <GraduationCap size={18} color="var(--primary-action)" />
+          <span>Syllabus Index</span>
+        </div>
+
+        {!isMobileView ? (
           <button
             type="button"
-            className="sidebar-rail-expand-btn"
+            className="sidebar-collapse-toggle-btn desktop-only"
             onClick={onToggleCollapse}
-            title="Expand sidebar (Ctrl+\)"
-            aria-label="Expand sidebar navigation"
+            title="Collapse sidebar (Ctrl+\)"
+            aria-label="Collapse sidebar navigation"
           >
-            <PanelLeftOpen size={16} />
+            <PanelLeftClose size={15} />
           </button>
-        </div>
-
-        <div className="sidebar-rail-scroll">
+        ) : (
           <button
             type="button"
-            className={`sidebar-rail-btn ${!selectedTopicId ? 'active' : ''}`}
-            onClick={handleGoHomeWrapper}
-            title="Syllabus Dashboard Overview"
-            aria-label="Syllabus Dashboard Overview"
+            className="sidebar-collapse-toggle-btn mobile-only"
+            onClick={onCloseMobile}
+            title="Close navigation drawer"
+            aria-label="Close navigation drawer"
           >
-            <Layers size={18} />
+            <X size={15} />
           </button>
+        )}
+      </div>
 
-          <div style={{ width: '28px', height: '1px', background: 'var(--border-subtle)', margin: '0.35rem 0' }} />
+      {/* Quick Search Filter Box */}
+      <div className="sidebar-search-box">
+        <Search size={14} className="sidebar-search-icon" aria-hidden="true" />
+        <input
+          ref={!isMobileView ? searchInputRef : undefined}
+          type="search"
+          className="sidebar-search-input"
+          placeholder="Filter topics..."
+          value={searchFilter}
+          onChange={e => setSearchFilter(e.target.value)}
+          aria-label="Filter syllabus topics"
+        />
+        {searchFilter && (
+          <button
+            type="button"
+            className="sidebar-search-clear"
+            onClick={() => setSearchFilter('')}
+            aria-label="Clear filter"
+          >
+            <X size={13} />
+          </button>
+        )}
+      </div>
 
-          {syllabus.map(subject => {
-            const hasReady = subject.groups.some(g => g.topics.some(t => t.status === 'ready'));
-            return (
-              <button
-                key={subject.id}
-                type="button"
-                className="sidebar-rail-btn"
-                onClick={() => handleRailSubjectClick(subject.id)}
-                title={`${subject.title} (${subject.section})`}
-                aria-label={`Open ${subject.title}`}
-              >
-                {getSubjectIcon(subject.id, 18)}
-                {hasReady && (
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '6px',
-                      right: '6px',
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      background: 'var(--primary-action)'
-                    }}
-                  />
-                )}
-              </button>
-            );
-          })}
+      {isSearching && (
+        <div className="sidebar-search-meta" aria-live="polite">
+          <span>Found {totalMatches} {totalMatches === 1 ? 'topic' : 'topics'}</span>
+          <button
+            type="button"
+            className="sidebar-search-reset-link"
+            onClick={() => setSearchFilter('')}
+          >
+            Clear
+          </button>
         </div>
-      </aside>
-    );
-  }
+      )}
+
+      {/* Dashboard Link Row */}
+      <div className="sidebar-home-link-row">
+        <button
+          type="button"
+          className={`sidebar-dashboard-nav-btn ${!selectedTopicId ? 'active' : ''}`}
+          onClick={handleGoHomeWrapper}
+        >
+          <Layers size={16} />
+          <span>Syllabus Overview</span>
+        </button>
+      </div>
+
+      {/* Independently Scrollable Navigation Area */}
+      <div className="sidebar-scroll-area">
+        {isSearching && totalMatches === 0 ? (
+          <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'var(--text-muted)' }}>
+            <AlertCircle size={28} style={{ margin: '0 auto 0.5rem', color: 'var(--secondary-accent)' }} />
+            <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>No topics found</div>
+            <div style={{ fontSize: '0.78rem', marginTop: '0.25rem' }}>No matches for "{searchFilter}"</div>
+            <button
+              type="button"
+              className="add-notes-btn"
+              style={{ marginTop: '0.85rem', fontSize: '0.78rem', padding: '0.45rem 0.85rem' }}
+              onClick={() => setSearchFilter('')}
+            >
+              Reset Filter
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* Foundation Section Heading */}
+            <div className="sidebar-section-divider">
+              <span className="sidebar-section-label">Foundation Section</span>
+              <span className="sidebar-section-badge">Easy–Med</span>
+            </div>
+            <div className="sidebar-section-list">
+              {foundationSubjects.map(subject => renderSubject(subject))}
+            </div>
+
+            {/* Advance Section Heading */}
+            {advanceSubjects.length > 0 && (
+              <>
+                <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                  <span className="sidebar-section-label">Advance Section</span>
+                  <span className="sidebar-section-badge advance">Hard</span>
+                </div>
+                <div className="sidebar-section-list">
+                  {advanceSubjects.map(subject => renderSubject(subject))}
+                </div>
+              </>
+            )}
+
+            {/* Data Structures & Algorithms (DSA) Section Heading */}
+            {dsaSubjects.length > 0 && (
+              <>
+                <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                  <span className="sidebar-section-label">DSA & Coding Section</span>
+                  <span className="sidebar-section-badge dsa">Core</span>
+                </div>
+                <div className="sidebar-section-list">
+                  {dsaSubjects.map(subject => renderSubject(subject))}
+                </div>
+              </>
+            )}
+
+            {/* System Design (HLD) Section Heading */}
+            {systemDesignSubjects.length > 0 && (
+              <>
+                <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
+                  <span className="sidebar-section-label">System Design (HLD) Section</span>
+                  <span className="sidebar-section-badge hld">HLD</span>
+                </div>
+                <div className="sidebar-section-list">
+                  {systemDesignSubjects.map(subject => renderSubject(subject))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -380,143 +476,76 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Main Floating Rounded Sidebar Panel */}
+      {/* Desktop View: Either Collapsed Rail OR Full Tree */}
+      {isCollapsed ? (
+        <aside className="app-sidebar collapsed desktop-only" aria-label="Collapsed Syllabus Navigation Rail">
+          <div className="sidebar-rail-header">
+            <button
+              type="button"
+              className="sidebar-rail-expand-btn"
+              onClick={onToggleCollapse}
+              title="Expand sidebar (Ctrl+\)"
+              aria-label="Expand sidebar navigation"
+            >
+              <PanelLeftOpen size={16} />
+            </button>
+          </div>
+
+          <div className="sidebar-rail-scroll">
+            <button
+              type="button"
+              className={`sidebar-rail-btn ${!selectedTopicId ? 'active' : ''}`}
+              onClick={handleGoHomeWrapper}
+              title="Syllabus Dashboard Overview"
+              aria-label="Syllabus Dashboard Overview"
+            >
+              <Layers size={18} />
+            </button>
+
+            <div style={{ width: '28px', height: '1px', background: 'var(--border-subtle)', margin: '0.35rem 0' }} />
+
+            {syllabus.map(subject => {
+              const hasReady = subject.groups.some(g => g.topics.some(t => t.status === 'ready'));
+              return (
+                <button
+                  key={subject.id}
+                  type="button"
+                  className="sidebar-rail-btn"
+                  onClick={() => handleRailSubjectClick(subject.id)}
+                  title={`${subject.title} (${subject.section})`}
+                  aria-label={`Open ${subject.title}`}
+                >
+                  {getSubjectIcon(subject.id, 18)}
+                  {hasReady && (
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '6px',
+                        right: '6px',
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        background: 'var(--primary-action)'
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+      ) : (
+        <aside className="app-sidebar desktop-only" aria-label="Syllabus Navigation Tree">
+          {renderTreeContent(false)}
+        </aside>
+      )}
+
+      {/* Mobile Off-Canvas Drawer (ALWAYS available on mobile/tablet when isMobileOpen is true) */}
       <aside
-        className={`app-sidebar ${isMobileOpen ? 'mobile-open' : ''}`}
-        aria-label="Syllabus Navigation Tree"
+        className={`app-sidebar mobile-only ${isMobileOpen ? 'mobile-open' : ''}`}
+        aria-label="Mobile Syllabus Navigation Drawer"
       >
-        {/* Top Header Row */}
-        <div className="sidebar-header">
-          <div className="sidebar-title-badge">
-            <GraduationCap size={18} color="var(--primary-action)" />
-            <span>Syllabus Index</span>
-          </div>
-
-          <button
-            type="button"
-            className="sidebar-collapse-toggle-btn desktop-only"
-            onClick={onToggleCollapse}
-            title="Collapse sidebar (Ctrl+\)"
-            aria-label="Collapse sidebar navigation"
-          >
-            <PanelLeftClose size={15} />
-          </button>
-
-          <button
-            type="button"
-            className="sidebar-collapse-toggle-btn mobile-only"
-            onClick={onCloseMobile}
-            title="Close navigation drawer"
-            aria-label="Close navigation drawer"
-          >
-            <X size={15} />
-          </button>
-        </div>
-
-        {/* Quick Search Filter Box */}
-        <div className="sidebar-search-box">
-          <Search size={14} className="sidebar-search-icon" aria-hidden="true" />
-          <input
-            ref={searchInputRef}
-            type="search"
-            className="sidebar-search-input"
-            placeholder="Filter topics..."
-            value={searchFilter}
-            onChange={e => setSearchFilter(e.target.value)}
-            aria-label="Filter syllabus topics"
-          />
-          {searchFilter && (
-            <button
-              type="button"
-              className="sidebar-search-clear"
-              onClick={() => setSearchFilter('')}
-              aria-label="Clear filter"
-            >
-              <X size={13} />
-            </button>
-          )}
-        </div>
-
-        {isSearching && (
-          <div className="sidebar-search-meta" aria-live="polite">
-            <span>Found {totalMatches} {totalMatches === 1 ? 'topic' : 'topics'}</span>
-            <button
-              type="button"
-              className="sidebar-search-reset-link"
-              onClick={() => setSearchFilter('')}
-            >
-              Clear
-            </button>
-          </div>
-        )}
-
-        {/* Dashboard Link Row */}
-        <div className="sidebar-home-link-row">
-          <button
-            type="button"
-            className={`sidebar-dashboard-nav-btn ${!selectedTopicId ? 'active' : ''}`}
-            onClick={handleGoHomeWrapper}
-          >
-            <Layers size={16} />
-            <span>Syllabus Overview</span>
-          </button>
-        </div>
-
-        {/* Independently Scrollable Navigation Area */}
-        <div className="sidebar-scroll-area">
-          {isSearching && totalMatches === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'var(--text-muted)' }}>
-              <AlertCircle size={28} style={{ margin: '0 auto 0.5rem', color: 'var(--secondary-accent)' }} />
-              <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>No topics found</div>
-              <div style={{ fontSize: '0.78rem', marginTop: '0.25rem' }}>No matches for "{searchFilter}"</div>
-              <button
-                type="button"
-                className="add-notes-btn"
-                style={{ marginTop: '0.85rem', fontSize: '0.78rem', padding: '0.45rem 0.85rem' }}
-                onClick={() => setSearchFilter('')}
-              >
-                Reset Filter
-              </button>
-            </div>
-          ) : (
-            <>
-              {/* Foundation Section Heading (Clean visual divider without awkward collapsing) */}
-              <div className="sidebar-section-divider">
-                <span className="sidebar-section-label">Foundation Section</span>
-                <span className="sidebar-section-badge">Easy–Med</span>
-              </div>
-              <div className="sidebar-section-list">
-                {foundationSubjects.map(subject => renderSubject(subject))}
-              </div>
-
-              {/* Advance Section Heading */}
-              {advanceSubjects.length > 0 && (
-                <>
-                  <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
-                    <span className="sidebar-section-label">Advance Section</span>
-                    <span className="sidebar-section-badge advance">Hard</span>
-                  </div>
-                  <div className="sidebar-section-list">
-                    {advanceSubjects.map(subject => renderSubject(subject))}
-                  </div>
-                </>
-              )}
-
-              {/* Data Structures & Algorithms (DSA) Section Heading */}
-              {dsaSubjects.length > 0 && (
-                <>
-                  <div className="sidebar-section-divider" style={{ marginTop: '1.25rem' }}>
-                    <span className="sidebar-section-label">DSA & Coding Section</span>
-                    <span className="sidebar-section-badge dsa">Core</span>
-                  </div>
-                  <div className="sidebar-section-list">
-                    {dsaSubjects.map(subject => renderSubject(subject))}
-                  </div>
-                </>
-              )}
-            </>
-          )}
-        </div>
+        {renderTreeContent(true)}
       </aside>
     </>
   );

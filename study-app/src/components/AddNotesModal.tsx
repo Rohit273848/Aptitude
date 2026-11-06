@@ -66,7 +66,7 @@ The answer is $\\Large \\boxed{\\mathbf{Result}}$.
               <FileCode size={22} />
             </div>
             <div>
-              <h3 id="modal-title" style={{ fontSize: '1.3rem', color: 'var(--text-main)', fontWeight: 700 }}>
+              <h3 id="modal-title" style={{ fontSize: 'clamp(1.1rem, 3.5vw, 1.3rem)', color: 'var(--text-main)', fontWeight: 700 }}>
                 How to Add Study Notes
               </h3>
               <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
@@ -86,7 +86,7 @@ The answer is $\\Large \\boxed{\\mathbf{Result}}$.
         </div>
 
         {/* Tab Switcher */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.5rem' }}>
           <button
             type="button"
             className={`lesson-control-btn ${activeTab === 'steps' ? 'active' : ''}`}

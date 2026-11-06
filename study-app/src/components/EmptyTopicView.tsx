@@ -18,11 +18,81 @@ export const EmptyTopicView: React.FC<EmptyTopicViewProps> = ({
   const [copied, setCopied] = useState(false);
 
   // Recommended file convention
-  const isDsa = subject.section === 'DSA' || subject.id.includes('dsa') || subject.id.includes('coding');
+  const isSystemDesign = subject.section === 'System Design' || subject.id.includes('system-design') || topic.id.startsWith('hld-');
+  const isDsa = !isSystemDesign && (subject.section === 'DSA' || subject.id.includes('dsa') || subject.id.includes('coding'));
   const suggestedFileName = topic.noteFile ? topic.noteFile.split('/').pop() : `${topic.title.replace(/[^a-zA-Z0-9]+/g, '_')}.md`;
-  const suggestedPath = topic.noteFile || (isDsa ? `DSA/${suggestedFileName}` : `Aptitude/Numarical/${suggestedFileName}`);
+  const suggestedPath = topic.noteFile || (isSystemDesign ? `SystemDesign/${suggestedFileName}` : isDsa ? `DSA/${suggestedFileName}` : `Aptitude/Numarical/${suggestedFileName}`);
 
-  const boilerplateMarkdown = isDsa
+  const boilerplateMarkdown = isSystemDesign
+    ? `---
+id: "${topic.id}"
+title: "${topic.title}"
+slug: "${topic.id.replace(/^hld-/, '')}"
+category: "${group.title}"
+difficulty: "Medium"
+estimatedTime: "50 mins"
+summary: "${topic.summary || 'Architecture, components, trade-offs, and scaling.'}"
+---
+
+# ${topic.title}
+
+> **System Design Revision Notes** for technical architecture interviews (FAANG, Tier-1 Product Companies, TCS Digital/Prime Technical Interviews). Formatted with GitHub-compatible Markdown, KaTeX calculations, Mermaid architecture diagrams, and production trade-off matrices.
+
+## Table of Contents
+1. [Requirements Clarification & Scope](#1-requirements-clarification--scope)
+2. [Back-of-the-Envelope Capacity Estimations](#2-back-of-the-envelope-capacity-estimations)
+3. [High-Level Architecture & API Design](#3-high-level-architecture--api-design)
+4. [Database Schema & Data Model](#4-database-schema--data-model)
+5. [Deep-Dive Component Design & Trade-Offs](#5-deep-dive-component-design--trade-offs)
+6. [Failure Modes & High-Availability Mitigation](#6-failure-modes--high-availability-mitigation)
+7. [Quick Architecture Cheat Sheet](#7-quick-architecture-cheat-sheet)
+
+---
+
+## 1. Requirements Clarification & Scope
+### Functional Requirements
+- Primary system capability 1...
+- Primary system capability 2...
+
+### Non-Functional Requirements
+- High availability ($99.99\\%$ uptime).
+- Low latency (sub-$50\\text{ ms}$).
+- Scalable to millions of daily active users.
+
+---
+
+## 2. Back-of-the-Envelope Capacity Estimations
+$$
+\\Large
+\\boxed{\\text{Write QPS} = \\frac{10\\text{ Million}}{86,400} \\approx 116\\text{ QPS}}
+$$
+
+---
+
+## 3. High-Level Architecture & API Design
+\`\`\`mermaid
+flowchart TD
+  Client([User Client]) --> LB[Load Balancer]
+  LB --> API[API Gateway / Services]
+  API --> Cache[(Redis Cache)]
+  API --> DB[(Primary Database)]
+\`\`\`
+
+---
+
+## 4. Database Schema & Data Model
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| \`id\` | UUID | Primary Key |
+| \`created_at\` | TIMESTAMP | Creation timestamp |
+
+---
+
+## 5. Deep-Dive Component Design & Trade-Offs
+> [!IMPORTANT]
+> Trade-off analysis, consistency vs latency, and bottleneck mitigation.
+`
+    : isDsa
     ? `# ${topic.title}
 
 > **Data Structures & Algorithms revision notes** for technical campus placements (TCS NQT Hands-on Coding / Digital / Prime, Infosys, Cognizant, Wipro, Accenture, LeetCode). Written in GitHub-compatible Markdown/LaTeX.

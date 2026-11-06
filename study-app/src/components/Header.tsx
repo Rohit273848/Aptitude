@@ -20,7 +20,7 @@ interface HeaderProps {
   onToggleCollapse?: () => void;
   isSidebarCollapsed?: boolean;
   theme?: 'light' | 'dark';
-  onToggleTheme?: () => void;
+  onToggleTheme?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Center: Command-Style Search Bar (Desktop / Tablet) */}
-        <div className="header-search-box desktop-search">
+        <div className="header-search-box desktop-search desktop-only">
           <label htmlFor="header-global-search" className="visually-hidden">
             Search syllabus topics, formulas, and shortcuts
           </label>
@@ -135,7 +135,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Section: Progress Indicator & Theme Toggle */}
         <div className="header-nav-actions">
-          {/* Sleek Progress Indicator Card */}
+          {/* Sleek Progress Indicator Card (Desktop) */}
           <div
             className="header-progress-widget desktop-only"
             title={`${completedCount} of ${totalAvailable} ready topics completed (${progressPercent}%)`}
@@ -155,6 +155,15 @@ export const Header: React.FC<HeaderProps> = ({
                 />
               </div>
             </div>
+          </div>
+
+          {/* Compact Progress Badge for Tablet Screens */}
+          <div
+            className="header-tablet-progress tablet-only"
+            title={`${completedCount} of ${totalAvailable} completed (${progressPercent}%)`}
+          >
+            <CheckCircle2 size={13} color="var(--primary-action)" />
+            <span>{progressPercent}%</span>
           </div>
 
           {/* Theme Toggle (Sun/Moon) */}

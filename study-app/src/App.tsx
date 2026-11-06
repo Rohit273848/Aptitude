@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { syllabusData, findTopicById, getAllTopics } from './data/syllabusData';
 import { BreadcrumbItem, Topic } from './types/syllabus';
 import { Header } from './components/Header';
@@ -14,6 +15,8 @@ import { NumberSystemView } from './components/NumberSystemView';
 import { EmptyTopicView } from './components/EmptyTopicView';
 import { AddNotesModal } from './components/AddNotesModal';
 import { NotesContextRail } from './components/NotesContextRail';
+import { DSANotesPage } from './components/dsa/DSANotesPage';
+import { SystemDesignNotesPage } from './pages/SystemDesign/SystemDesignNotesPage';
 import { ArrowRight, Check, Search, Sparkles } from 'lucide-react';
 
 const STORAGE_KEY = 'tcs_nqt_completed_topics';
@@ -54,8 +57,86 @@ export const App: React.FC = () => {
     }
   }, [theme]);
 
-  const handleToggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  const isThemeTransitioningRef = useRef(false);
+
+  const handleToggleTheme = (e?: React.MouseEvent) => {
+    // Prevent overlapping transitions if user clicks repeatedly
+    if (isThemeTransitioningRef.current) return;
+
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+
+    // Respect prefers-reduced-motion accessibility & fallback for unsupported browsers
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const doc = document as Document & {
+      startViewTransition?: (callback: () => Promise<void> | void) => {
+        ready: Promise<void>;
+        finished: Promise<void>;
+      };
+    };
+
+    if (!doc.startViewTransition || isReducedMotion) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    isThemeTransitioningRef.current = true;
+
+    // Calculate reveal origin coordinates from the clicked button
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+
+    const target = (e?.currentTarget || e?.target) as HTMLElement | null;
+    const btn = target?.closest('button') || document.querySelector('.theme-toggle-btn');
+    if (btn && typeof btn.getBoundingClientRect === 'function') {
+      const rect = btn.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top + rect.height / 2;
+    } else if (e && typeof e.clientX === 'number' && (e.clientX !== 0 || e.clientY !== 0)) {
+      x = e.clientX;
+      y = e.clientY;
+    }
+
+    // Calculate dynamic maximum radius to cover the entire viewport
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
+      document.documentElement.setAttribute('data-theme', nextTheme);
+    });
+
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 600,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            fill: 'forwards',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      })
+      .catch((err: unknown) => {
+        console.warn('Theme transition ready error:', err);
+      });
+
+    transition.finished
+      .catch((err: unknown) => {
+        console.warn('Theme transition finished error:', err);
+      })
+      .finally(() => {
+        isThemeTransitioningRef.current = false;
+      });
   };
 
   // Load completed topics from localStorage
@@ -284,10 +365,26 @@ export const App: React.FC = () => {
               onOpenAddNotesGuide={() => setIsAddNotesModalOpen(true)}
               completedTopics={completedTopics}
             />
+          ) : currentTopicData && (currentTopicData.subject.section === 'DSA' || currentTopicData.topic.id.startsWith('dsa-')) && currentTopicData.topic.status === 'ready' ? (
+            /* Dedicated Dynamic DSA Learning Page */
+            <DSANotesPage
+              topicId={currentTopicData.topic.id}
+              isCompleted={completedTopics.includes(currentTopicData.topic.id)}
+              onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
+              onGoHome={handleGoHome}
+            />
+          ) : currentTopicData && (currentTopicData.subject.section === 'System Design' || currentTopicData.topic.id.startsWith('hld-')) && currentTopicData.topic.status === 'ready' ? (
+            /* Dedicated Dynamic System Design Learning Page */
+            <SystemDesignNotesPage
+              topicId={currentTopicData.topic.id}
+              isCompleted={completedTopics.includes(currentTopicData.topic.id)}
+              onToggleComplete={() => handleToggleComplete(currentTopicData.topic.id)}
+              onGoHome={handleGoHome}
+            />
           ) : currentTopicData && currentTopicData.topic.status === 'ready' ? (
-            /* 3-Panel Learning Experience: Main Content + Right Contextual Tools Rail */
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', width: '100%' }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
+            /* Responsive Learning Experience: Main Content + Responsive Context Rail */
+            <div className="topic-view-container">
+              <div className="topic-main-content-column">
                 {currentTopicData.topic.id === 'percentages' ? (
                   <PercentageView
                     isCompleted={completedTopics.includes('percentages')}

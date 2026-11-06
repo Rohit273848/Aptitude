@@ -20,7 +20,7 @@ export interface TopicGroup {
 export interface SubjectArea {
   id: string;
   title: string;
-  section: 'Foundation' | 'Advance' | 'DSA';
+  section: 'Foundation' | 'Advance' | 'DSA' | 'System Design';
   difficulty: 'Easy–Medium' | 'Medium' | 'Hard' | 'Medium–Hard';
   description: string;
   groups: TopicGroup[];
